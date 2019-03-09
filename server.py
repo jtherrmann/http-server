@@ -9,6 +9,7 @@ from typing import Callable
 # TODO: understand (& comment where appropriate) the purpose of each line
 
 
+# TODO: configurable logging, e.g for suppressing during tests
 def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
 
     # TODO: record info from man 2 socket on the params to socket; these are
