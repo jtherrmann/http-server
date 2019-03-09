@@ -15,6 +15,12 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
     # already the default values, but specify them explicitly for educational
     # purposes
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as listener:
+        # TODO: document: allow reusing the socket as per
+        # https://stackoverflow.com/a/29217540 and
+        # help(socket.socket.setsockopt), which says to see the Unix manual;
+        # helpful when restarting server during testing
+        listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+
         listener.bind((host, port))
         listener.listen()
 
