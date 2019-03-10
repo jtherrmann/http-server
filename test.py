@@ -53,6 +53,16 @@ class ServerTestCase(unittest.TestCase):
             self._server.kill()
             time.sleep(1)
 
+    @staticmethod
+    def send_request(request: bytes) -> bytes:
+        # TODO: don't re-specify socket params here?
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
+            client.connect(('127.0.0.1', 8080))
+            client.sendall(request)
+            # TODO: see TODO relating to 1024 param in server.py
+            response = client.recv(1024)
+        return response
+
 
 class ServerEchoTestCase(ServerTestCase):
     # Test a server that, for each request, sends back an identical response.
@@ -60,14 +70,9 @@ class ServerEchoTestCase(ServerTestCase):
     _script = 'server_echo.py'
 
     def test_echo_single(self) -> None:
-        # TODO: don't re-specify socket params here?
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
-            client.connect(('127.0.0.1', 8080))
-            client.sendall(b'Hello, there!')
-            # TODO: see TODO relating to 1024 param in server.py
-            response = client.recv(1024)
-
-        self.assertEqual(response, b'Hello, there!')
+        request = b'Hello, there!'
+        response = self.send_request(request)
+        self.assertEqual(response, request)
 
 
 class ServerTripleCapsTestCase(ServerTestCase):
@@ -76,15 +81,9 @@ class ServerTripleCapsTestCase(ServerTestCase):
 
     _script = 'server_triple_caps.py'
 
-    # TODO: DRY this up with test_echo_single
     def test_triple_caps_single(self) -> None:
-        # TODO: don't re-specify socket params here?
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
-            client.connect(('127.0.0.1', 8080))
-            client.sendall(b'Hello, there!')
-            # TODO: see TODO relating to 1024 param in server.py
-            response = client.recv(1024)
-
+        request = b'Hello, there!'
+        response = self.send_request(request)
         self.assertEqual(response, b'HELLO, THERE!HELLO, THERE!HELLO, THERE!')
 
 
