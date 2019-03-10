@@ -38,17 +38,17 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
         listener.bind((host, port))
         listener.listen()
 
-        # while True:
-        connection, address = listener.accept()
-        with connection:
-            print('Connection established with {}\n'.format(address))
-            # TODO: where does 1024 come from? make it globally
-            # configurable (e.g. for tests)?
-            request = connection.recv(1024).decode()
-            print('Request:\n\n', request, '\n')
-            response = handler(request)
-            print('Response:\n\n', response)
-            connection.sendall(response.encode())
+        while True:
+            connection, address = listener.accept()
+            with connection:
+                print('Connection established with {}\n'.format(address))
+                # TODO: where does 1024 come from? make it globally
+                # configurable (e.g. for tests)?
+                request = connection.recv(1024).decode()
+                print('Request:\n\n', request, '\n')
+                response = handler(request)
+                print('Response:\n\n', response)
+                connection.sendall(response.encode())
 
 
 if __name__ == '__main__':
