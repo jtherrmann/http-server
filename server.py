@@ -20,6 +20,19 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
         # https://stackoverflow.com/a/29217540 and
         # help(socket.socket.setsockopt), which says to see the Unix manual;
         # helpful when restarting server during testing
+        #
+        # note that without this line, socket.bind (called on the next line)
+        # raises an exception displayed as "OSError: [Errno 98] Address already
+        # in use" if we try to run the server too soon after it was last
+        # terminated; this is the same error that prints if we try to run the
+        # server while another instance of the server is actually running, in
+        # which case having set this option still does not allow us to bind two
+        # different sockets to the same address; this line only allows us to
+        # reuse the address immediately after terminating the previous server's
+        # process
+        #
+        # Error codes:
+        # http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html
         listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         listener.bind((host, port))
