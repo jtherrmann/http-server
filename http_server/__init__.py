@@ -87,10 +87,20 @@ def run_server(
 
             with connection:
                 print('Connection established with {}\n'.format(address))
+
+                # Receive up to the given number of bytes on a connected socket
+                # (man 2 recv).
                 request = connection.recv(MAX_REQUEST_LENGTH).decode()
                 print('Request:\n\n', request, '\n')
+
                 response = handler(request)
                 print('Response:\n\n', response)
+
+                # Send data from a connected socket. socket.socket.send, like
+                # the underlying system call (see `man 2 send`), returns the
+                # number of bytes sent, which may be less than the total if the
+                # network is busy. socket.socket.sendall repeatedly sends data
+                # until all data has been sent.
                 connection.sendall(response.encode())
 
 
