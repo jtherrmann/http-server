@@ -86,7 +86,6 @@ class ServerTestCase(unittest.TestCase):
 
     @staticmethod
     def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
-        # TODO: don't re-specify socket params here?
         for request in requests:
             with http_server.create_tcp_socket() as client:
                 client.connect(('127.0.0.1', 8080))
