@@ -69,8 +69,9 @@ class ServerTestCase(unittest.TestCase):
     @staticmethod
     def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
         # TODO: don't re-specify socket params here?
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
-            for request in requests:
+        for request in requests:
+            with socket.socket(
+                    socket.AF_INET, socket.SOCK_STREAM, 0) as client:
                 client.connect(('127.0.0.1', 8080))
                 client.sendall(request)
                 # TODO: see TODO relating to 1024 param in server.py
