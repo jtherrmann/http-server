@@ -9,6 +9,14 @@ class ServerEchoTestCase(unittest.TestCase):
     _script = 'test_run_server_echo.py'
 
     def setUp(self) -> None:
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
+            # TODO: could we get a ConnectionRefusedError if the server is busy
+            # with another connection, and thus fail to detect that the server
+            # is actually running? should we try this a few times, pausing for
+            # ~1 sec. after each attempt?
+            with self.assertRaises(ConnectionRefusedError):
+                client.connect(('127.0.0.1', 8080))
+
         self._server = subprocess.Popen(('python3', self._script))
         time.sleep(1)
 
