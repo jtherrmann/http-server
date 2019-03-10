@@ -12,10 +12,6 @@ DEFAULT_PORT = 8080
 DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 
 
-# Sources:
-# - https://docs.python.org/3/library/socket.html#example
-
-
 # TODO: understand (& comment where appropriate) the purpose of each line
 
 
@@ -23,6 +19,10 @@ DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 def run_server(
         handler: Callable[[str], str],
         address: Tuple[str, int] = DEFAULT_ADDR) -> None:
+
+    # Sources:
+    # - https://docs.python.org/3/library/socket.html#example
+    # - https://blog.stephencleary.com/2009/05/using-socket-as-server-listening-socket.html  # noqa E501
 
     with create_tcp_socket() as listener:
         # TODO: document: allow reusing the socket as per

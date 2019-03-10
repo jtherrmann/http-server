@@ -86,6 +86,7 @@ class ServerTestCase(unittest.TestCase):
 
     @staticmethod
     def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
+        # Adapted from https://docs.python.org/3/library/socket.html#example
         for request in requests:
             with http_server.create_tcp_socket() as client:
                 client.connect(http_server.DEFAULT_ADDR)
