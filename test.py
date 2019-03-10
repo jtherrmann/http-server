@@ -8,12 +8,11 @@ class ServerEchoTestCase(unittest.TestCase):
 
     _script = 'test_run_server_echo.py'
 
-    # setUp starts the server before each test and tearDown terminates it after
-    # each test. setUp fails if a process is already listening on the given
-    # host and port. If this happens (e.g. because the server somehow escaped
-    # tearDown or because you manually started the server and forgot to
-    # terminate it), you will have to identify the rogue process and terminate
-    # it. One method is to run the following command as root:
+    # If setUp fails because a process is already listening on the given
+    # address (e.g. because a previous test server somehow escaped tearDown or
+    # because you manually started a server and forgot to terminate it), you
+    # must identify the process and terminate it before you can run the tests
+    # successfully. One method is to run the following command as root:
     #
     #   netstat -nlp | grep <host>:<port>
     #
