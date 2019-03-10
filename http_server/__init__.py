@@ -12,6 +12,20 @@ DEFAULT_PORT = 8080
 DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 
 
+# HTTP explicitly doesn't specify a minimum or maximum URI length. Various
+# sources seem to indicate that the same goes for total request length.
+#
+# TODO:
+# - Confirm requirements (or lack thereof) on total request length.
+# - Return 414 (Request-URI Too Long) if URI too long.
+#
+# sources:
+# - https://tools.ietf.org/html/rfc2616#section-3.2.1
+# - https://stackoverflow.com/a/2660036
+# - https://serverfault.com/a/151092
+MAX_REQUEST_LENGTH = 4096
+
+
 # TODO: understand (& comment where appropriate) the purpose of each line
 
 
@@ -70,9 +84,7 @@ def run_server(
 
             with connection:
                 print('Connection established with {}\n'.format(address))
-                # TODO: where does 1024 come from? make it globally
-                # configurable (e.g. for tests)?
-                request = connection.recv(1024).decode()
+                request = connection.recv(MAX_REQUEST_LENGTH).decode()
                 print('Request:\n\n', request, '\n')
                 response = handler(request)
                 print('Response:\n\n', response)

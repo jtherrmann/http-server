@@ -91,7 +91,10 @@ class ServerTestCase(unittest.TestCase):
             with http_server.create_tcp_socket() as client:
                 client.connect(http_server.DEFAULT_ADDR)
                 client.sendall(request)
-                # TODO: see TODO relating to 1024 param in server.py
+
+                # Receive up to the given number of bytes from the server.
+                # Increase this number if add new tests that depend on longer
+                # responses.
                 yield client.recv(1024)
 
 
