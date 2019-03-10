@@ -20,9 +20,6 @@ from typing import Callable
 # TODO: configurable logging, e.g for suppressing during tests
 def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
 
-    # TODO: record info from man 2 socket on the params to socket; these are
-    # already the default values, but specify them explicitly for educational
-    # purposes
     with create_tcp_socket() as listener:
         # TODO: document: allow reusing the socket as per
         # https://stackoverflow.com/a/29217540 and
@@ -60,4 +57,23 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
 
 
 def create_tcp_socket() -> socket.socket:
-    return socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
+    # Create a TCP socket.
+    #
+    # socket.AF_INET specifies the IPv4 family of protocols.
+    #
+    # socket.SOCK_STREAM is the socket type and "[p]rovides sequenced,
+    # reliable, two-way, connection-based byte streams" (man 2 socket).
+    #
+    # The protocol can be specified as 0 when only one protocol (in this case,
+    # TCP) supports the given socket type within the given protocol family.
+    #
+    # These are already the default parameter values for socket.socket, but I'm
+    # specifying them explicitly in order to learn more about the underlying
+    # sockets interface.
+    #
+    # sources:
+    # - man 2 socket
+    # - man 7 ip
+    return socket.socket(
+        family=socket.AF_INET, type=socket.SOCK_STREAM, proto=0
+    )
