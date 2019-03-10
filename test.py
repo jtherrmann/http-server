@@ -59,7 +59,7 @@ class ServerEchoTestCase(ServerTestCase):
 
     _script = 'server_echo.py'
 
-    def test_run_server_single_echo(self) -> None:
+    def test_echo_single(self) -> None:
         # TODO: don't re-specify socket params here?
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
             client.connect(('127.0.0.1', 8080))
