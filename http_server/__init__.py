@@ -37,6 +37,9 @@ def run_server(
     # Sources:
     # - https://docs.python.org/3/library/socket.html#example
     # - https://blog.stephencleary.com/2009/05/using-socket-as-server-listening-socket.html  # noqa E501
+    # - Python function `help` for objects of interest. E.g:
+    #     >>> help(socket.socket)
+    #     >>> help(socket.socket.listen)
 
     with create_tcp_socket() as listener:
         # TODO: document: allow reusing the socket as per
