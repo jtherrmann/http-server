@@ -70,5 +70,23 @@ class ServerEchoTestCase(ServerTestCase):
         self.assertEqual(response, b'Hello, there!')
 
 
+class ServerTripleCapsTestCase(ServerTestCase):
+    # Test a server that, for each request, sends back the concatenation of
+    # three copies of the request, converted to upper case.
+
+    _script = 'server_triple_caps.py'
+
+    # TODO: DRY this up with test_echo_single
+    def test_triple_caps_single(self) -> None:
+        # TODO: don't re-specify socket params here?
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
+            client.connect(('127.0.0.1', 8080))
+            client.sendall(b'Hello, there!')
+            # TODO: see TODO relating to 1024 param in server.py
+            response = client.recv(1024)
+
+        self.assertEqual(response, b'HELLO, THERE!HELLO, THERE!HELLO, THERE!')
+
+
 if __name__ == '__main__':
     unittest.main()
