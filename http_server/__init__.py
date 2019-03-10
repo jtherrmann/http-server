@@ -50,12 +50,9 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
                 print('Response:\n\n', response)
                 connection.sendall(response.encode())
 
-
-if __name__ == '__main__':
     # TODO:
     # - using port 80 seems to require root, 8080 does not; determine the
     #   difference, maybe make it globally configurable for the purpose of
     #   running tests & such
     # - also, it seems that when using 8080, invalid responses aren't allowed,
     #   but when using 80, they just get accepted as plaintext?
-    run_server('127.0.0.1', 8080, lambda s: s)
