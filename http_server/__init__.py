@@ -40,11 +40,30 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
         # http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html
         listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
+        # Assign the given address to the socket (man 2 bind).
         listener.bind((host, port))
+
+        # Mark the socket as one that will be used to accept incoming
+        # connection requests (man 2 listen).
+        #
+        # TODO: specify backlog value
         listener.listen()
 
         while True:
+
+            # Dequeue the first connection request from the listening socket's
+            # queue of pending connections. Create and return a new connected
+            # socket (not in the listening state) and the address of the peer
+            # socket (in this case, a client connecting to our server). The
+            # listening socket is unaffected.
+            #
+            # If the queue is empty, and the listening socket is not marked as
+            # nonblocking, then block execution until a connection is present.
+            #
+            # sources:
+            # - man 2 accept
             connection, address = listener.accept()
+
             with connection:
                 print('Connection established with {}\n'.format(address))
                 # TODO: where does 1024 come from? make it globally
