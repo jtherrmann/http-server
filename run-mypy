@@ -1,1 +1,2 @@
-mypy http_server tests
+mypy http_server tests tests/scripts
+mypy scripts/*
