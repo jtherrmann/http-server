@@ -1,6 +1,12 @@
 import socket
 from typing import Callable, Tuple
 
+
+# TODO:
+# - using port 80 seems to require root, 8080 does not; determine the
+#   difference
+# - also, it seems that when using 8080, invalid responses aren't allowed,
+#   but when using 80, they just get accepted as plaintext?
 DEFAULT_HOST = '127.0.0.1'
 DEFAULT_PORT = 8080
 DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
@@ -11,13 +17,6 @@ DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 
 
 # TODO: understand (& comment where appropriate) the purpose of each line
-
-
-# TODO:
-# - using port 80 seems to require root, 8080 does not; determine the
-#   difference
-# - also, it seems that when using 8080, invalid responses aren't allowed,
-#   but when using 80, they just get accepted as plaintext?
 
 
 # TODO: configurable logging, e.g for suppressing during tests
