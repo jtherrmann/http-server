@@ -1,5 +1,9 @@
 import socket
-from typing import Callable
+from typing import Callable, Tuple
+
+DEFAULT_HOST = '127.0.0.1'
+DEFAULT_PORT = 8080
+DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 
 
 # Sources:
@@ -11,14 +15,15 @@ from typing import Callable
 
 # TODO:
 # - using port 80 seems to require root, 8080 does not; determine the
-#   difference, maybe make it globally configurable for the purpose of
-#   running tests & such
+#   difference
 # - also, it seems that when using 8080, invalid responses aren't allowed,
 #   but when using 80, they just get accepted as plaintext?
 
 
 # TODO: configurable logging, e.g for suppressing during tests
-def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
+def run_server(
+        handler: Callable[[str], str],
+        address: Tuple[str, int] = DEFAULT_ADDR) -> None:
 
     with create_tcp_socket() as listener:
         # TODO: document: allow reusing the socket as per
@@ -41,7 +46,7 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
         listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         # Assign the given address to the socket (man 2 bind).
-        listener.bind((host, port))
+        listener.bind(address)
 
         # Mark the socket as one that will be used to accept incoming
         # connection requests (man 2 listen).

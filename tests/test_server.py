@@ -88,7 +88,7 @@ class ServerTestCase(unittest.TestCase):
     def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
         for request in requests:
             with http_server.create_tcp_socket() as client:
-                client.connect(('127.0.0.1', 8080))
+                client.connect(http_server.DEFAULT_ADDR)
                 client.sendall(request)
                 # TODO: see TODO relating to 1024 param in server.py
                 yield client.recv(1024)
