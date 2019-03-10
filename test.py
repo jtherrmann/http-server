@@ -4,9 +4,9 @@ import time
 import unittest
 
 
-class ServerEchoTestCase(unittest.TestCase):
+class ServerTestCase(unittest.TestCase):
 
-    _script = 'test_run_server_echo.py'
+    _script = None  # type: str
 
     # If setUp fails because a process is already listening on the given
     # address (e.g. because a previous test server somehow escaped tearDown or
@@ -52,6 +52,12 @@ class ServerEchoTestCase(unittest.TestCase):
             )
             self._server.kill()
             time.sleep(1)
+
+
+class ServerEchoTestCase(ServerTestCase):
+    # Test a server that, for each request, sends back an identical response.
+
+    _script = 'test_run_server_echo.py'
 
     def test_run_server_single_echo(self) -> None:
         # TODO: don't re-specify socket params here?
