@@ -6,12 +6,9 @@ import unittest
 
 class ServerEchoTestCase(unittest.TestCase):
 
-    # TODO: put these in __init__
-    # self._script = 'test_run_server_echo.py'
-    # self._server = None
+    _script = 'test_run_server_echo.py'
 
     def setUp(self) -> None:
-        self._script = 'test_run_server_echo.py'  # TODO: temp
         self._server = subprocess.Popen(('python3', self._script))
         time.sleep(1)
 
