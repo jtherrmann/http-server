@@ -57,7 +57,7 @@ class ServerTestCase(unittest.TestCase):
 class ServerEchoTestCase(ServerTestCase):
     # Test a server that, for each request, sends back an identical response.
 
-    _script = 'test_run_server_echo.py'
+    _script = 'server_echo.py'
 
     def test_run_server_single_echo(self) -> None:
         # TODO: don't re-specify socket params here?
