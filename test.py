@@ -8,6 +8,26 @@ class ServerEchoTestCase(unittest.TestCase):
 
     _script = 'test_run_server_echo.py'
 
+    # setUp starts the server before each test and tearDown terminates it after
+    # each test. setUp fails if a process is already listening on the given
+    # host and port. If this happens (e.g. because the server somehow escaped
+    # tearDown or because you manually started the server and forgot to
+    # terminate it), you will have to identify the rogue process and terminate
+    # it. One method is to run the following command as root:
+    #
+    #   netstat -nlp | grep <host>:<port>
+    #
+    # where <host> and <port> are the host and port on which the process is
+    # listening. The -nlp options tell netstat to show numerical addresses,
+    # show only listening sockets, and show the PID to which each socket
+    # belongs. The above command should print a line that includes the PID of
+    # the rogue process. Kill it with `kill <PID>`.
+    #
+    # Sources:
+    # - https://unix.stackexchange.com/a/106562
+    # - man 8 netstat
+    # - man 1 kill
+
     def setUp(self) -> None:
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
             # TODO: could we get a ConnectionRefusedError if the server is busy
@@ -44,15 +64,6 @@ class ServerEchoTestCase(unittest.TestCase):
             response = client.recv(1024)
 
         self.assertEqual(response, b'Hello, there!')
-
-        # TODO: doc this problem where we check that the server isn't running
-
-        # TODO: problem: if above assertion fails (or any other exception is
-        # raised, probably) before the terminate line below, the proc is never
-        # terminated, though somehow we can still run the test program again
-        # (is it b/c we allow reusing the same port?); should fix this issue
-        # and also, at the start of the test, check that the server is not
-        # currently running
 
 
 if __name__ == '__main__':
