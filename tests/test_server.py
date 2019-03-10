@@ -45,6 +45,8 @@ class ServerTestCase(unittest.TestCase):
     # - man 1 kill
 
     def setUp(self) -> None:
+        # Start the test server. Automatically called before each test.
+
         self._server = subprocess.Popen(
             ('python3', os.path.join(self._script_dir, self._script))
         )
@@ -58,6 +60,8 @@ class ServerTestCase(unittest.TestCase):
         self.assertEqual(self._server.poll(), None)
 
     def tearDown(self) -> None:
+        # Terminate the test server. Automatically called after each test.
+
         # SIGTERM vs. SIGKILL: https://major.io/2010/03/18/sigterm-vs-sigkill/
 
         print('Sending SIGTERM to process {}.'.format(self._server.pid))
