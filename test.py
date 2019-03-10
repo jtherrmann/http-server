@@ -2,6 +2,7 @@ import socket
 import subprocess
 import time
 import unittest
+from typing import Iterable
 
 
 class ServerTestCase(unittest.TestCase):
@@ -54,14 +55,14 @@ class ServerTestCase(unittest.TestCase):
             time.sleep(1)
 
     @staticmethod
-    def send_request(request: bytes) -> bytes:
+    def send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
         # TODO: don't re-specify socket params here?
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
-            client.connect(('127.0.0.1', 8080))
-            client.sendall(request)
-            # TODO: see TODO relating to 1024 param in server.py
-            response = client.recv(1024)
-        return response
+            for request in requests:
+                client.connect(('127.0.0.1', 8080))
+                client.sendall(request)
+                # TODO: see TODO relating to 1024 param in server.py
+                yield client.recv(1024)
 
 
 class ServerEchoTestCase(ServerTestCase):
@@ -70,9 +71,9 @@ class ServerEchoTestCase(ServerTestCase):
     _script = 'server_echo.py'
 
     def test_echo_single(self) -> None:
-        request = b'Hello, there!'
-        response = self.send_request(request)
-        self.assertEqual(response, request)
+        requests = (b'Hello, there!',)
+        responses = tuple(self.send_requests(requests))
+        self.assertEqual(responses, requests)
 
 
 class ServerTripleCapsTestCase(ServerTestCase):
@@ -82,9 +83,11 @@ class ServerTripleCapsTestCase(ServerTestCase):
     _script = 'server_triple_caps.py'
 
     def test_triple_caps_single(self) -> None:
-        request = b'Hello, there!'
-        response = self.send_request(request)
-        self.assertEqual(response, b'HELLO, THERE!HELLO, THERE!HELLO, THERE!')
+        requests = (b'Hello, there!',)
+        responses = tuple(self.send_requests(requests))
+        self.assertEqual(
+            responses, (b'HELLO, THERE!HELLO, THERE!HELLO, THERE!',)
+        )
 
 
 if __name__ == '__main__':
