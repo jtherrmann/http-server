@@ -67,7 +67,7 @@ class ServerTestCase(unittest.TestCase):
             time.sleep(1)
 
     @staticmethod
-    def send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
+    def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
         # TODO: don't re-specify socket params here?
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
             for request in requests:
@@ -84,12 +84,12 @@ class ServerEchoTestCase(ServerTestCase):
 
     def test_echo_single(self) -> None:
         requests = (b'Hello, there!',)
-        responses = tuple(self.send_requests(requests))
+        responses = tuple(self._send_requests(requests))
         self.assertEqual(responses, requests)
 
     def test_echo_multiple(self) -> None:
         requests = self._multiple_requests
-        responses = tuple(self.send_requests(requests))
+        responses = tuple(self._send_requests(requests))
         self.assertEqual(responses, requests)
 
 
@@ -101,14 +101,14 @@ class ServerTripleCapsTestCase(ServerTestCase):
 
     def test_triple_caps_single(self) -> None:
         requests = (b'Hello, there!',)
-        responses = tuple(self.send_requests(requests))
+        responses = tuple(self._send_requests(requests))
         self.assertEqual(
             responses, (b'HELLO, THERE!HELLO, THERE!HELLO, THERE!',)
         )
 
     def test_triple_caps_multiple(self) -> None:
         requests = self._multiple_requests
-        responses = tuple(self.send_requests(requests))
+        responses = tuple(self._send_requests(requests))
         self.assertEqual(
             responses, tuple(request.upper() * 3 for request in requests)
         )
