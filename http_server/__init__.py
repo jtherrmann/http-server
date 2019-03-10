@@ -9,6 +9,14 @@ from typing import Callable
 # TODO: understand (& comment where appropriate) the purpose of each line
 
 
+# TODO:
+# - using port 80 seems to require root, 8080 does not; determine the
+#   difference, maybe make it globally configurable for the purpose of
+#   running tests & such
+# - also, it seems that when using 8080, invalid responses aren't allowed,
+#   but when using 80, they just get accepted as plaintext?
+
+
 # TODO: configurable logging, e.g for suppressing during tests
 def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
 
@@ -49,10 +57,3 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
                 response = handler(request)
                 print('Response:\n\n', response)
                 connection.sendall(response.encode())
-
-    # TODO:
-    # - using port 80 seems to require root, 8080 does not; determine the
-    #   difference, maybe make it globally configurable for the purpose of
-    #   running tests & such
-    # - also, it seems that when using 8080, invalid responses aren't allowed,
-    #   but when using 80, they just get accepted as plaintext?
