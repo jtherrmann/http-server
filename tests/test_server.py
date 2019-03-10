@@ -8,7 +8,7 @@ from typing import Iterable
 
 class ServerTestCase(unittest.TestCase):
 
-    _script_dir = 'tests'
+    _script_dir = os.path.join('tests', 'scripts')
 
     _script = None  # type: str
 
