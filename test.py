@@ -8,6 +8,18 @@ from typing import Iterable
 class ServerTestCase(unittest.TestCase):
 
     _script = None  # type: str
+    _multiple_requests = (
+        b'dog dog CAT',
+        b'zebra FiSh',
+        b'abc abc 123 123',
+        b'hello thank you good bye',
+        b'asntehuNATOHUECARACntaHAOTehaoneCH',
+        b'cool water metal hard rough',
+        b'rocks garden water rainbows',
+        b'symbols walls trees meadows',
+        b'MEMmuetoaeHUEETmeTUEUMTEmTEUM',
+        b'live long and prosper'
+    )
 
     # If setUp fails because a process is already listening on the given
     # address (e.g. because a previous test server somehow escaped tearDown or
@@ -75,6 +87,11 @@ class ServerEchoTestCase(ServerTestCase):
         responses = tuple(self.send_requests(requests))
         self.assertEqual(responses, requests)
 
+    def test_echo_multiple(self) -> None:
+        requests = self._multiple_requests
+        responses = tuple(self.send_requests(requests))
+        self.assertEqual(responses, requests)
+
 
 class ServerTripleCapsTestCase(ServerTestCase):
     # Test a server that, for each request, sends back the concatenation of
@@ -87,6 +104,13 @@ class ServerTripleCapsTestCase(ServerTestCase):
         responses = tuple(self.send_requests(requests))
         self.assertEqual(
             responses, (b'HELLO, THERE!HELLO, THERE!HELLO, THERE!',)
+        )
+
+    def test_triple_caps_multiple(self) -> None:
+        requests = self._multiple_requests
+        responses = tuple(self.send_requests(requests))
+        self.assertEqual(
+            responses, tuple(request.upper() * 3 for request in requests)
         )
 
 
