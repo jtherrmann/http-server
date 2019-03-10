@@ -29,16 +29,15 @@ class ServerEchoTestCase(unittest.TestCase):
     # - man 1 kill
 
     def setUp(self) -> None:
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as client:
-            # TODO: could we get a ConnectionRefusedError if the server is busy
-            # with another connection, and thus fail to detect that the server
-            # is actually running? should we try this a few times, pausing for
-            # ~1 sec. after each attempt?
-            with self.assertRaises(ConnectionRefusedError):
-                client.connect(('127.0.0.1', 8080))
-
         self._server = subprocess.Popen(('python3', self._script))
         time.sleep(1)
+
+        # Cause the current test to fail if the server failed to start. Without
+        # this check, if the server failed to start because there was already
+        # another process listening on the given address, then the current test
+        # attempts to connect to the process as if it were the test server, and
+        # the test passes or fails depending on the response it receives.
+        self.assertEqual(self._server.poll(), None)
 
     def tearDown(self) -> None:
         # SIGTERM vs. SIGKILL: https://major.io/2010/03/18/sigterm-vs-sigkill/
