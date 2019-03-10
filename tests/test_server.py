@@ -1,9 +1,10 @@
 import os
-import socket
 import subprocess
 import time
 import unittest
 from typing import Iterable
+
+import http_server
 
 
 class ServerTestCase(unittest.TestCase):
@@ -87,8 +88,7 @@ class ServerTestCase(unittest.TestCase):
     def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
         # TODO: don't re-specify socket params here?
         for request in requests:
-            with socket.socket(
-                    socket.AF_INET, socket.SOCK_STREAM, 0) as client:
+            with http_server.create_tcp_socket() as client:
                 client.connect(('127.0.0.1', 8080))
                 client.sendall(request)
                 # TODO: see TODO relating to 1024 param in server.py

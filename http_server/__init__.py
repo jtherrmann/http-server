@@ -23,7 +23,7 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
     # TODO: record info from man 2 socket on the params to socket; these are
     # already the default values, but specify them explicitly for educational
     # purposes
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0) as listener:
+    with create_tcp_socket() as listener:
         # TODO: document: allow reusing the socket as per
         # https://stackoverflow.com/a/29217540 and
         # help(socket.socket.setsockopt), which says to see the Unix manual;
@@ -57,3 +57,7 @@ def run_server(host: str, port: int, handler: Callable[[str], str]) -> None:
                 response = handler(request)
                 print('Response:\n\n', response)
                 connection.sendall(response.encode())
+
+
+def create_tcp_socket() -> socket.socket:
+    return socket.socket(socket.AF_INET, socket.SOCK_STREAM, 0)
