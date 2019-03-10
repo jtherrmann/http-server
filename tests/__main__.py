@@ -1,3 +1,4 @@
+import os
 import socket
 import subprocess
 import time
@@ -7,7 +8,10 @@ from typing import Iterable
 
 class ServerTestCase(unittest.TestCase):
 
+    _script_dir = 'tests'
+
     _script = None  # type: str
+
     _multiple_requests = (
         b'dog dog CAT',
         b'zebra FiSh',
@@ -41,7 +45,9 @@ class ServerTestCase(unittest.TestCase):
     # - man 1 kill
 
     def setUp(self) -> None:
-        self._server = subprocess.Popen(('python3', self._script))
+        self._server = subprocess.Popen(
+            ('python3', os.path.join(self._script_dir, self._script))
+        )
         self._wait()
 
         # Cause the current test to fail if the server failed to start. Without
@@ -68,10 +74,10 @@ class ServerTestCase(unittest.TestCase):
 
     @staticmethod
     def _wait() -> None:
-        # 80 ms seems to be sufficient everywhere this method is called, but
+        # 300 ms seems to be sufficient everywhere this method is called, but
         # if it ever causes problems, then it should be made configurable,
         # perhaps as a command-line and/or config file option.
-        time.sleep(0.08)
+        time.sleep(0.3)
 
     @staticmethod
     def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
@@ -122,5 +128,6 @@ class ServerTripleCapsTestCase(ServerTestCase):
         )
 
 
+# TODO: check that tests are being run from root of project
 if __name__ == '__main__':
     unittest.main()
