@@ -42,7 +42,7 @@ class ServerTestCase(unittest.TestCase):
 
     def setUp(self) -> None:
         self._server = subprocess.Popen(('python3', self._script))
-        time.sleep(1)
+        self._wait()
 
         # Cause the current test to fail if the server failed to start. Without
         # this check, if the server failed to start because there was already
@@ -56,7 +56,7 @@ class ServerTestCase(unittest.TestCase):
 
         print('Sending SIGTERM to process {}.'.format(self._server.pid))
         self._server.terminate()
-        time.sleep(1)
+        self._wait()
 
         while self._server.poll() is None:
             print(
@@ -64,7 +64,14 @@ class ServerTestCase(unittest.TestCase):
                 'Sending SIGKILL.'.format(self._server.pid)
             )
             self._server.kill()
-            time.sleep(1)
+            self._wait()
+
+    @staticmethod
+    def _wait() -> None:
+        # 80 ms seems to be sufficient everywhere this method is called, but
+        # if it ever causes problems, then it should be made configurable,
+        # perhaps as a command-line and/or config file option.
+        time.sleep(0.08)
 
     @staticmethod
     def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
