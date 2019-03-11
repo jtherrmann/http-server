@@ -12,7 +12,7 @@ from typing import List
 # - Terminals may also be described using natural language.
 
 # <request>       = <request-line> {any char}
-# <request-line>  = <method> ' ' <uri> ' ' <version> '\r\l'
+# <request-line>  = <method> ' ' <uri> ' ' <version> '\r\n'
 # <method>        = 'GET'
 # <uri>           = <uri-part> {<uri-part>}
 # <uri-part>      = '/' {'/'} <uri-part-body>
