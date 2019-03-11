@@ -26,9 +26,6 @@ DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 MAX_REQUEST_LENGTH = 4096
 
 
-# TODO: understand (& comment where appropriate) the purpose of each line
-
-
 # TODO: configurable logging, e.g for suppressing during tests
 def run_server(
         handler: Callable[[str], str],
@@ -42,23 +39,24 @@ def run_server(
     #     >>> help(socket.socket.listen)
 
     with create_tcp_socket() as listener:
-        # TODO: document: allow reusing the socket as per
-        # https://stackoverflow.com/a/29217540 and
-        # help(socket.socket.setsockopt), which says to see the Unix manual;
-        # helpful when restarting server during testing
+
+        # Normally, calling bind fails if a socket was too recently bound to
+        # the given address. Enabling the socket.SO_REUSEADDR option for our
+        # listening socket allows us to bind it to a recently used address
+        # (e.g. for restarting the server during automated testing). bind still
+        # fails if given the address of an actively listening socket.
         #
-        # note that without this line, socket.bind (called on the next line)
-        # raises an exception displayed as "OSError: [Errno 98] Address already
-        # in use" if we try to run the server too soon after it was last
-        # terminated; this is the same error that prints if we try to run the
-        # server while another instance of the server is actually running, in
-        # which case having set this option still does not allow us to bind two
-        # different sockets to the same address; this line only allows us to
-        # reuse the address immediately after terminating the previous server's
-        # process
+        # Note that Linux systems allow address reuse only when the option was
+        # enabled during the previous bind operation and is enabled during the
+        # current bind operation (see NOTES in `man 7 socket`).
         #
-        # Error codes:
-        # http://www-numi.fnal.gov/offline_software/srt_public_context/WebDocs/Errors/unix_system_errors.html
+        # socket.SOL_SOCKET specifies that we're setting an option at the level
+        # of the sockets API (as opposed to e.g. the TCP level).
+        #
+        # sources:
+        # - man 2 setsockopt
+        # - man 7 socket
+        # - https://docs.python.org/3/library/socket.html#example
         listener.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 
         # Assign the given address to the socket (man 2 bind).
