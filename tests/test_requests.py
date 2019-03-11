@@ -7,7 +7,20 @@ from http_server.requests import parse, Request, GET_METHOD, HTTP_VERSION
 # TODO: update __main__.py imports
 
 
+class RequestTestCase(unittest.TestCase):
+
+    def test_construct(self) -> None:
+        method = 'foo'
+        uri_ast = ['abc', 'hello', 'blah']
+        version = 'bar'
+        request = Request(method, uri_ast, version)
+        self.assertEqual(request.method, method)
+        self.assertEqual(request.uri, uri_ast)
+        self.assertEqual(request.version, version)
+
+
 class ParseTestCase(unittest.TestCase):
+
     def test_parse_uri_0(self) -> None:
         self.assertEqual(*self.get_actual_expected('/', ['']))
 
