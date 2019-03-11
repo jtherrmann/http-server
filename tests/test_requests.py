@@ -4,11 +4,7 @@ from typing import List, Tuple
 from http_server.requests import parse, Request, GET_METHOD, HTTP_VERSION
 
 
-# TODO: update __main__.py imports
-
-
-# TODO: rename to RequestsTestCase
-class ParseTestCase(unittest.TestCase):
+class RequestsTestCase(unittest.TestCase):
 
     def test_parse_uri_0(self) -> None:
         self.assertEqual(*self.get_actual_expected('/', ['']))
