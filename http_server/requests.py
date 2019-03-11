@@ -1,4 +1,6 @@
-from typing import List
+from typing import List  # noqa F401
+
+from attr import attrs, attrib
 
 
 # Request grammar
@@ -24,12 +26,11 @@ GET_METHOD = 'GET'
 HTTP_VERSION = 'HTTP/1.1'
 
 
-# TODO: test case for ==
+@attrs(frozen=True)
 class Request:
-    def __init__(self, method: str, uri_ast: List[str], version: str) -> None:
-        self.method = method
-        self.uri = uri_ast
-        self.version = version
+    method = attrib()  # type: str
+    uri = attrib()  # type: List[str]
+    version = attrib()  # type: str
 
 
 def parse(request: str) -> Request:
