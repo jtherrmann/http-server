@@ -29,6 +29,13 @@ HTTP_VERSION = 'HTTP/1.1'
 # <version>       = HTTP_VERSION
 
 
+# TODO: tests:
+# - missing spaces, missing \r\n, or extra whitespace in request-line
+# - invalid method
+# - whitespace or / in uri-part-body
+# - invalid version
+
+
 @attrs(frozen=True)
 class Request:
     method = attrib()  # type: str
