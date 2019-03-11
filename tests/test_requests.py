@@ -9,6 +9,45 @@ class RequestsTestCase(unittest.TestCase):
     def test_parse_uri_0(self) -> None:
         self.assertEqual(*self.get_actual_expected('/', ['']))
 
+    def test_parse_uri_1(self) -> None:
+        self.assertEqual(*self.get_actual_expected('/foo', ['foo']))
+
+    def test_parse_uri_2(self) -> None:
+        self.assertEqual(*self.get_actual_expected('/foo/bar', ['foo', 'bar']))
+
+    def test_parse_uri_3(self) -> None:
+        self.assertEqual(
+            *self.get_actual_expected('/foo/bar/baz', ['foo', 'bar', 'baz'])
+        )
+
+    def test_parse_uri_0_with_extra_slashes(self) -> None:
+        self.assertEqual(*self.get_actual_expected('///////', ['']))
+
+    def test_parse_uri_1_with_extra_slashes(self) -> None:
+        self.assertEqual(*self.get_actual_expected('////////foo', ['foo']))
+
+    def test_parse_uri_2_with_extra_slashes(self) -> None:
+        self.assertEqual(
+            *self.get_actual_expected('////foo///bar', ['foo', 'bar'])
+        )
+
+    def test_parse_uri_3_with_extra_slashes(self) -> None:
+        self.assertEqual(
+            *self.get_actual_expected(
+                '////foo///bar//////baz', ['foo', 'bar', 'baz']
+            )
+        )
+
+    def test_parse_uri_trailing_slash(self) -> None:
+        self.assertEqual(
+            *self.get_actual_expected('/foo/bar/', ['foo', 'bar', ''])
+        )
+
+    def test_parse_uri_extra_trailing_slashes(self) -> None:
+        self.assertEqual(
+            *self.get_actual_expected('/foo/bar//////', ['foo', 'bar', ''])
+        )
+
     @classmethod
     def get_actual_expected(
             cls, uri: str, uri_ast: List[str]) -> Tuple[Request, Request]:
