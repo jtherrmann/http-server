@@ -48,6 +48,15 @@ class RequestsTestCase(unittest.TestCase):
             *self.get_actual_expected('/foo/bar//////', ['foo', 'bar', ''])
         )
 
+    def test_parse_ignores_trailing_chars(self) -> None:
+        request_str = (
+            self.get_request_str('/foo')
+            + '  here is\nsome\r   more \n\n random stuff !!\r!!    \n\n\n   '
+        )
+        actual = parse(request_str)
+        expected = self.get_request(['foo'])
+        self.assertEqual(actual, expected)
+
     @classmethod
     def get_actual_expected(
             cls, uri: str, uri_ast: List[str]) -> Tuple[Request, Request]:
