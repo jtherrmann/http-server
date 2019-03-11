@@ -27,12 +27,9 @@ HTTP_VERSION = 'HTTP/1.1'
 # TODO: test case for ==
 class Request:
     def __init__(self, method: str, uri_ast: List[str], version: str) -> None:
-        # self.method = method
-        # self.uri = uri_ast
-        # self.version = version
-        self.method = None
-        self.uri = None
-        self.version = None
+        self.method = method
+        self.uri = uri_ast
+        self.version = version
 
 
 def parse(request: str) -> Request:
