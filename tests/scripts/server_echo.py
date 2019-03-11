@@ -1,5 +1,5 @@
-import http_server
+from http_server import server
 
 
 if __name__ == '__main__':
-    http_server.run_server(lambda request: request)
+    server.run_server(lambda request: request)

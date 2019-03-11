@@ -4,7 +4,7 @@ import time
 import unittest
 from typing import Iterable
 
-import http_server
+from http_server import server
 
 
 class ServerTestCase(unittest.TestCase):
@@ -88,8 +88,8 @@ class ServerTestCase(unittest.TestCase):
     def _send_requests(requests: Iterable[bytes]) -> Iterable[bytes]:
         # Adapted from https://docs.python.org/3/library/socket.html#example
         for request in requests:
-            with http_server.create_tcp_socket() as client:
-                client.connect(http_server.DEFAULT_ADDR)
+            with server.create_tcp_socket() as client:
+                client.connect(server.DEFAULT_ADDR)
                 client.sendall(request)
 
                 # Receive up to the given number of bytes from the server.
