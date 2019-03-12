@@ -1,7 +1,7 @@
 import unittest
 
 from http_server.responses import Response
-from http_server.requests import HTTP_VERSION, CRLF
+from http_server.tokens import HTTP_VERSION, CRLF
 
 
 class ResponsesTestCase(unittest.TestCase):

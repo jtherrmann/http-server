@@ -1,9 +1,6 @@
 from typing import Tuple  # noqa F401
 
-from .requests import HTTP_VERSION, CRLF
-
-
-# TODO: move HTTP_VERSION and CRLF to shared module
+from .tokens import HTTP_VERSION, CRLF
 
 
 class Response:

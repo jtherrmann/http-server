@@ -3,12 +3,7 @@ from typing import Optional, Tuple
 
 from attr import attrs, attrib
 
-
-GET_METHOD = 'GET'
-
-HTTP_VERSION = 'HTTP/1.1'
-
-CRLF = '\r\n'
+from .tokens import GET_METHOD, HTTP_VERSION, CRLF
 
 
 # Request grammar
@@ -19,8 +14,7 @@ CRLF = '\r\n'
 # - Angle brackets (<>) enclose nonterminals.
 # - Single quotes ('') enclose literal terminals.
 # - Braces ({}) enclose anything that may occur zero or more times.
-# - Uppercase identifiers refer to terminals defined as global constants
-#   (above).
+# - Uppercase identifiers refer to terminals defined as global constants.
 # - Terminals may also be described using natural language.
 
 # <request>       = <request-line> {any char}
