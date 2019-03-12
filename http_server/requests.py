@@ -7,6 +7,8 @@ GET_METHOD = 'GET'
 
 HTTP_VERSION = 'HTTP/1.1'
 
+CRLF = '\r\n'
+
 
 # Request grammar
 
@@ -21,7 +23,7 @@ HTTP_VERSION = 'HTTP/1.1'
 # - Terminals may also be described using natural language.
 
 # <request>       = <request-line> {any char}
-# <request-line>  = <method> ' ' <uri> ' ' <version> '\r\n'
+# <request-line>  = <method> ' ' <uri> ' ' <version> CRLF
 # <method>        = GET_METHOD
 # <uri>           = <uri-part> {<uri-part>}
 # <uri-part>      = '/' {'/'} <uri-part-body>

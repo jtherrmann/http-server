@@ -1,7 +1,7 @@
 import unittest
 from typing import List, Tuple
 
-from http_server.requests import parse, Request, GET_METHOD, HTTP_VERSION
+from http_server.requests import parse, Request, GET_METHOD, HTTP_VERSION, CRLF
 
 
 class RequestsTestCase(unittest.TestCase):
