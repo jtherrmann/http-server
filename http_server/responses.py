@@ -1,3 +1,4 @@
+from typing import Any
 from typing import Tuple  # noqa F401
 
 from .tokens import HTTP_VERSION, CRLF
@@ -25,6 +26,16 @@ class Response:
         self._status_code = status_code
         self._content_type = content_type
         self._message_body = message_body
+
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, Response):
+            raise TypeError()
+
+        return other is self or (
+            self._status_code == other._status_code
+            and self._content_type == other._content_type
+            and self._message_body == other._message_body
+        )
 
     def get_str(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-6
