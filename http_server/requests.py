@@ -62,7 +62,7 @@ def _parse_request_line(inpt: str) -> Optional[Tuple[str, List[str], str]]:
     if method is None:
         return None
 
-    if inpt[_pos] != ' ':
+    if _pos == len(inpt) or inpt[_pos] != ' ':
         return None
     _pos += 1
 
@@ -70,7 +70,7 @@ def _parse_request_line(inpt: str) -> Optional[Tuple[str, List[str], str]]:
     if uri is None:
         return None
 
-    if inpt[_pos] != ' ':
+    if _pos == len(inpt) or inpt[_pos] != ' ':
         return None
     _pos += 1
 
@@ -98,7 +98,7 @@ def _parse_method(inpt: str) -> Optional[str]:
 def _parse_uri(inpt: str) -> Optional[List[str]]:
     parts = []
 
-    while inpt[_pos] == '/':
+    while _pos != len(inpt) and inpt[_pos] == '/':
         uri_part = _parse_uri_part(inpt)
         parts.append(uri_part)
 
@@ -109,7 +109,7 @@ def _parse_uri_part(inpt: str) -> str:
     global _pos
     assert inpt[_pos] == '/'
 
-    while inpt[_pos] == '/':
+    while _pos != len(inpt) and inpt[_pos] == '/':
         _pos += 1
 
     return _parse_uri_part_body(inpt)
@@ -117,11 +117,12 @@ def _parse_uri_part(inpt: str) -> str:
 
 def _parse_uri_part_body(inpt: str) -> str:
     global _pos
-    assert inpt[_pos] != '/'
+    if _pos != len(inpt):
+        assert inpt[_pos] != '/'
 
     part_body = ''
-    # TODO: add test for case where _pos == len(inpt)
-    while inpt[_pos] != '/' and 0x21 <= ord(inpt[_pos]) <= 0x7E:
+    while (_pos != len(inpt)
+           and inpt[_pos] != '/' and 0x21 <= ord(inpt[_pos]) <= 0x7E):
         part_body += inpt[_pos]
         _pos += 1
 
