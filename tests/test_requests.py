@@ -66,7 +66,7 @@ class RequestsTestCase(unittest.TestCase):
 
     @staticmethod
     def get_request_str(uri: str) -> str:
-        return '{} {} {}\r\n'.format(GET_METHOD, uri, HTTP_VERSION)
+        return '{} {} {}{}'.format(GET_METHOD, uri, HTTP_VERSION, CRLF)
 
     @staticmethod
     def get_request(uri_ast: List[str]) -> Request:
