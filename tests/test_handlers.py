@@ -31,6 +31,25 @@ class HandlersTestCase(unittest.TestCase):
             wrapped_handler(request_str.encode()), response_str.encode()
         )
 
+    def test_handler_code_500(self) -> None:
+        def custom_handler(request: Request) -> Response:
+            raise Exception()
+
+        request = Request(GET_METHOD, [''], HTTP_VERSION)
+        response = Response(500)
+
+        with self.assertRaises(Exception):
+            custom_handler(request)
+
+        wrapped_handler = handler(custom_handler)
+
+        request_str = '{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
+        response_str = response.get_str()
+
+        self.assertEqual(
+            wrapped_handler(request_str.encode()), response_str.encode()
+        )
+
 
 if __name__ == '__main__':
     unittest.main()
