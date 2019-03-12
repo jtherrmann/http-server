@@ -28,7 +28,7 @@ MAX_REQUEST_LENGTH = 4096
 
 # TODO: configurable logging, e.g for suppressing during tests
 def run_server(
-        handler: Callable[[str], str],
+        handler: Callable[[bytes], bytes],
         address: Tuple[str, int] = DEFAULT_ADDR) -> None:
 
     # Sources:
@@ -88,7 +88,7 @@ def run_server(
 
                 # Receive up to the given number of bytes on a connected socket
                 # (man 2 recv).
-                request = connection.recv(MAX_REQUEST_LENGTH).decode()
+                request = connection.recv(MAX_REQUEST_LENGTH)
                 print('Request:\n\n', request, '\n')
 
                 response = handler(request)
@@ -99,7 +99,7 @@ def run_server(
                 # number of bytes sent, which may be less than the total if the
                 # network is busy. socket.socket.sendall repeatedly sends data
                 # until all data has been sent.
-                connection.sendall(response.encode())
+                connection.sendall(response)
 
 
 def create_tcp_socket() -> socket.socket:
