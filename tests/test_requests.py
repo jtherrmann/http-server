@@ -157,9 +157,21 @@ class RequestsTestCase(unittest.TestCase):
 
     def test_empty_str(self) -> None:
         self.assertIsNone(parse(''))
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
+
+    def test_only_method(self) -> None:
+        self.assertIsNone(parse(GET_METHOD))
+
+    def test_only_method_space(self) -> None:
+        self.assertIsNone(parse(GET_METHOD + ' '))
+
+    def test_only_method_space_uri(self) -> None:
+        self.assertIsNone(parse(GET_METHOD + ' /'))
+
+    def test_only_method_space_uri_space(self) -> None:
+        self.assertIsNone(parse(GET_METHOD + ' / '))
+
+    def test_only_method_space_uri_space_version(self) -> None:
+        self.assertIsNone(parse(GET_METHOD + ' / ' + HTTP_VERSION))
 
     @classmethod
     def get_actual_expected(
