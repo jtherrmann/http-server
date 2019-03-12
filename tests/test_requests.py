@@ -135,6 +135,32 @@ class RequestsTestCase(unittest.TestCase):
             parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
         )
 
+    def test_missing_method(self) -> None:
+        self.assertIsNone(parse('/ {}{}'.format(HTTP_VERSION, CRLF)))
+        self.assertIsNotNone(
+            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
+        )
+
+    def test_missing_uri(self) -> None:
+        self.assertIsNone(
+            parse('{} {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
+        )
+        self.assertIsNotNone(
+            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
+        )
+
+    def test_missing_version(self) -> None:
+        self.assertIsNone(parse('{} / {}'.format(GET_METHOD, CRLF)))
+        self.assertIsNotNone(
+            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
+        )
+
+    def test_empty_str(self) -> None:
+        self.assertIsNone(parse(''))
+        self.assertIsNotNone(
+            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
+        )
+
     @classmethod
     def get_actual_expected(
             cls, uri: str, uri_ast: List[str]) -> Tuple[Request, Request]:
