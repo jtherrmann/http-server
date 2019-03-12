@@ -15,4 +15,5 @@ if __name__ == '__main__':
         from test_server import ServerEchoTestCase, ServerTripleCapsTestCase  # noqa F401
         from test_requests import RequestsTestCase  # noqa F401
         from test_responses import ResponsesTestCase  # noqa F401
+        from test_handlers import HandlersTestCase  # noqa F401
         unittest.main()
