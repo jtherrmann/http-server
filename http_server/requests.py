@@ -27,7 +27,7 @@ CRLF = '\r\n'
 # <method>        = GET_METHOD
 # <uri>           = <uri-part> {<uri-part>}
 # <uri-part>      = '/' {'/'} <uri-part-body>
-# <uri-part-body> = {any non-whitespace char other than '/'}
+# <uri-part-body> = {any non-'/' char in range 0x21-0x7E}
 # <version>       = HTTP_VERSION
 
 
