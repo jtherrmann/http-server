@@ -1,5 +1,5 @@
 import unittest
-from typing import List, Tuple
+from typing import List, Optional, Tuple
 
 from http_server.requests import parse, Request, GET_METHOD, HTTP_VERSION, CRLF
 
@@ -163,7 +163,9 @@ class RequestsTestCase(unittest.TestCase):
 
     @classmethod
     def get_actual_expected(
-            cls, uri: str, uri_ast: List[str]) -> Tuple[Request, Request]:
+            cls,
+            uri: str,
+            uri_ast: List[str]) -> Tuple[Optional[Request], Request]:
         actual = parse(cls.get_request_str(uri))
         expected = cls.get_request(uri_ast)
         return actual, expected
