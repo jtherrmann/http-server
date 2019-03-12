@@ -6,7 +6,7 @@ from http_server.tokens import HTTP_VERSION, CRLF
 
 class ResponsesTestCase(unittest.TestCase):
 
-    def test_create_response(self) -> None:
+    def test_create_response_200(self) -> None:
         Response(200, ('text', 'html'), '')
 
     def test_response_invalid_status_code(self) -> None:
@@ -17,7 +17,7 @@ class ResponsesTestCase(unittest.TestCase):
         with self.assertRaises(ValueError):
             Response(200, ('html', 'text'), '')
 
-    def test_response_get_str(self) -> None:
+    def test_response_200_get_str(self) -> None:
         message_body = 'here is some text'
         response = Response(200, ('text', 'plain'), message_body)
         expected = (
@@ -27,6 +27,22 @@ class ResponsesTestCase(unittest.TestCase):
             + CRLF + message_body
         )
         self.assertEqual(response.get_str(), expected)
+
+    # TODO
+    # def test_response_500_get_str(self) -> None:
+
+    def test_create_response_500(self) -> None:
+        Response(500)
+
+    def test_response_500_content_type(self) -> None:
+        Response(200, content_type=('text', 'html'))
+        with self.assertRaises(ValueError):
+            Response(500, content_type=('text', 'html'))
+
+    def test_response_500_message_body(self) -> None:
+        Response(200, message_body='')
+        with self.assertRaises(ValueError):
+            Response(500, message_body='')
 
 
 if __name__ == '__main__':
