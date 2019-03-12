@@ -61,54 +61,33 @@ class RequestsTestCase(unittest.TestCase):
         self.assertIsNone(
             parse('{}/ {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
         )
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_second_missing_space(self) -> None:
         self.assertIsNone(
             parse('{} /{}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
         )
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_missing_crlf(self) -> None:
         self.assertIsNone(parse('{} / {}'.format(GET_METHOD, HTTP_VERSION)))
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_leading_space(self) -> None:
         self.assertIsNone(
             parse(' {} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
         )
 
     def test_first_extra_space(self) -> None:
         self.assertIsNone(
             parse('{}  / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
         )
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_second_extra_space(self) -> None:
         self.assertIsNone(
             parse('{} /  {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
         )
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_trailing_space(self) -> None:
         self.assertIsNone(
             parse('{} / {} {}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
         )
 
     def test_other_whitespace(self) -> None:
@@ -121,9 +100,6 @@ class RequestsTestCase(unittest.TestCase):
 
     def test_invalid_method(self) -> None:
         self.assertIsNone(parse('gET / {}{}'.format(HTTP_VERSION, CRLF)))
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_invalid_uri(self) -> None:
         self.assertIsNone(parse(self.get_request_str('foo')))
@@ -131,29 +107,17 @@ class RequestsTestCase(unittest.TestCase):
 
     def test_invalid_version(self) -> None:
         self.assertIsNone(parse('{} / HtTP/1.1{}'.format(GET_METHOD, CRLF)))
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_missing_method(self) -> None:
         self.assertIsNone(parse('/ {}{}'.format(HTTP_VERSION, CRLF)))
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_missing_uri(self) -> None:
         self.assertIsNone(
             parse('{} {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
         )
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_missing_version(self) -> None:
         self.assertIsNone(parse('{} / {}'.format(GET_METHOD, CRLF)))
-        self.assertIsNotNone(
-            parse('{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF))
-        )
 
     def test_empty_str(self) -> None:
         self.assertIsNone(parse(''))
