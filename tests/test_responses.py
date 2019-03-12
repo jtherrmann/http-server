@@ -28,6 +28,20 @@ class ResponsesTestCase(unittest.TestCase):
         )
         self.assertEqual(response.get_str(), expected)
 
+    def test_response_200_defaults(self) -> None:
+        self.assertEqual(
+            Response(200),
+            Response(200, ('text', 'plain'), '')
+        )
+        self.assertEqual(
+            Response(200, ('text', 'html')),
+            Response(200, ('text', 'html'), '')
+        )
+        self.assertEqual(
+            Response(200, message_body='hello'),
+            Response(200, ('text', 'plain'), 'hello')
+        )
+
     # TODO
     # def test_response_500_get_str(self) -> None:
 
