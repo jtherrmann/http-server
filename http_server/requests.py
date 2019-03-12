@@ -18,7 +18,7 @@ CRLF = '\r\n'
 # - Angle brackets (<>) enclose nonterminals.
 # - Single quotes ('') enclose literal terminals.
 # - Braces ({}) enclose anything that may occur zero or more times.
-# - Uppercase identifiers refer to terminals defined as global variables
+# - Uppercase identifiers refer to terminals defined as global constants
 #   (above).
 # - Terminals may also be described using natural language.
 
