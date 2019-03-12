@@ -1,14 +1,13 @@
 from typing import Tuple  # noqa F401
 
 
-# TODO: move HTTP_VERSION to this file, import it in requests (w/ TODO to
-# include more versions in grammar)
+# TODO: move HTTP_VERSION and CRLF to shared module
 
 
 class Response:
 
     _status_codes = (200,)
-    _content_types = (('text', 'html'),)
+    _content_types = (('text', 'html'), ('text', 'plain'))
 
     def __init__(
             self,
@@ -25,3 +24,6 @@ class Response:
         self._status_code = status_code
         self._content_type = content_type
         self._message_body = message_body
+
+    def get_str(self) -> str:
+        pass
