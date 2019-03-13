@@ -28,6 +28,16 @@ class ResponsesTestCase(unittest.TestCase):
         )
         self.assertEqual(response.get_str(), expected)
 
+    def test_response_get_str_no_content_type(self) -> None:
+        message_body = 'here is some text'
+        response = Response(200, message_body=message_body)
+        expected = (
+            HTTP_VERSION + ' 200 OK' + CRLF
+            + 'Content-Length: {}'.format(len(message_body)) + CRLF
+            + CRLF + message_body
+        )
+        self.assertEqual(response.get_str(), expected)
+
 
 if __name__ == '__main__':
     unittest.main()
