@@ -42,9 +42,6 @@ class ResponsesTestCase(unittest.TestCase):
             Response(200, ('text', 'plain'), 'hello')
         )
 
-    # TODO
-    # def test_response_500_get_str(self) -> None:
-
     def test_create_response_500(self) -> None:
         Response(500)
 
@@ -57,6 +54,11 @@ class ResponsesTestCase(unittest.TestCase):
         Response(200, message_body='')
         with self.assertRaises(ValueError):
             Response(500, message_body='')
+
+    def test_response_500_get_str(self) -> None:
+        response = Response(500)
+        expected = HTTP_VERSION + ' 500 Internal Server Error' + CRLF + CRLF
+        self.assertEqual(response.get_str(), expected)
 
 
 if __name__ == '__main__':
