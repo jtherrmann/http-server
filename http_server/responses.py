@@ -51,12 +51,15 @@ class Response:
 
     def get_str(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-6
-        return (
-            self._get_status_line()
-            + self._get_content_type() + CRLF
-            + self._get_content_length() + CRLF
-            + CRLF + self._message_body
-        )
+        status_line = self._get_status_line()
+        if self._status_code == 200:
+            return (
+                status_line
+                + self._get_content_type() + CRLF
+                + self._get_content_length() + CRLF
+                + CRLF + self._message_body
+            )
+        return status_line + CRLF
 
     def _get_status_line(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-6.1
@@ -70,8 +73,10 @@ class Response:
     def _get_content_type(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-14.17
         # https://tools.ietf.org/html/rfc2616#section-3.7
+        assert self._status_code == 200
         return 'Content-Type: ' + '/'.join(self._content_type)
 
     def _get_content_length(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-14.13
+        assert self._status_code == 200
         return 'Content-Length: {}'.format(len(self._message_body.encode()))
