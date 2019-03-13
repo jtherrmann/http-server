@@ -40,12 +40,11 @@ class Response:
 
     def get_str(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-6
-        status_line = self._get_status_line()
-        return (
-            status_line
-            + self._get_content_type() + CRLF
-            + self._get_content_length() + CRLF
-            + CRLF + self._message_body
+        return ''.join(
+            (self._get_status_line(),
+             self._get_content_type(),
+             self._get_content_length(),
+             self._get_message_body())
         )
 
     def _get_status_line(self) -> str:
@@ -60,8 +59,23 @@ class Response:
     def _get_content_type(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-14.17
         # https://tools.ietf.org/html/rfc2616#section-3.7
-        return 'Content-Type: ' + '/'.join(self._content_type)
+        if self._content_type is not None:
+            return 'Content-Type: {}{}'.format(
+                '/'.join(self._content_type), CRLF
+            )
+        else:
+            return ''
 
     def _get_content_length(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-14.13
-        return 'Content-Length: {}'.format(len(self._message_body.encode()))
+        if self._message_body is not None:
+            return 'Content-Length: {}{}'.format(
+                len(self._message_body.encode()), CRLF
+            )
+        else:
+            return ''
+
+    def _get_message_body(self) -> str:
+        return CRLF + (
+            self._message_body if self._message_body is not None else ''
+        )
