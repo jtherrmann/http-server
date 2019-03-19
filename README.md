@@ -14,7 +14,7 @@ Known to work on Debian GNU/Linux 9 (stretch).
 
 1. Install the `python3-pip` package.
 2. Clone this repo and run `cd http-server`.
-3. Run `pip install . --user`, which installs the `http_server` package to
+3. Run `pip3 install . --user`, which installs the `http_server` package to
 `~/.local/` or to the location specified by `PYTHONUSERBASE`. (Also see the
 docs for
 [--user](https://pip.pypa.io/en/stable/reference/pip_install/#cmdoption-user)
