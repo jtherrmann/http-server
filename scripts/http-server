@@ -4,4 +4,4 @@ from http_server import server
 
 
 if __name__ == '__main__':
-    server.run_server(lambda request: request)
+    server.run_server(lambda request: request, verbose=True)

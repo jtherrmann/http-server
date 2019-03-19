@@ -26,10 +26,11 @@ DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 MAX_REQUEST_LENGTH = 4096
 
 
-# TODO: configurable logging, e.g for suppressing during tests
+# TODO: more sophisticated logging
 def run_server(
         handler: Callable[[bytes], bytes],
-        address: Tuple[str, int] = DEFAULT_ADDR) -> None:
+        address: Tuple[str, int] = DEFAULT_ADDR,
+        verbose: bool = False) -> None:
 
     # Sources:
     # - https://docs.python.org/3/library/socket.html#example
@@ -83,16 +84,20 @@ def run_server(
             # - man 2 accept
             connection, address = listener.accept()
 
+            # TODO: improve print output readability
             with connection:
-                print('Connection established with {}\n'.format(address))
+                if verbose:
+                    print('Connection established with {}\n'.format(address))
 
                 # Receive up to the given number of bytes on a connected socket
                 # (man 2 recv).
                 request = connection.recv(MAX_REQUEST_LENGTH)
-                print('Request:\n\n', request, '\n')
+                if verbose:
+                    print('Request:\n\n', request, '\n')
 
                 response = handler(request)
-                print('Response:\n\n', response)
+                if verbose:
+                    print('Response:\n\n', response)
 
                 # Send data from a connected socket. socket.socket.send, like
                 # the underlying system call (see `man 2 send`), returns the
