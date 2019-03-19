@@ -2,6 +2,20 @@
 
 from http_server import server
 
+# TODO: remove when no longer needed
+from http_server.handlers import handler
+from http_server.requests import Request
+from http_server.responses import Response
+
+
+# TODO: remove when no longer needed
+@handler
+def temp_handler(request: Request) -> Response:
+    message_body = 'You requested URI /{}. Here it is.'.format(
+        '/'.join(request.uri)
+    )
+    return Response(200, ('text', 'plain'), message_body)
+
 
 if __name__ == '__main__':
-    server.run_server(lambda request: request, verbose=True)
+    server.run_server(temp_handler, verbose=True)
