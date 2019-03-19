@@ -7,7 +7,7 @@ from typing import Callable, Tuple
 #   difference
 # - also, it seems that when using 8080, invalid responses aren't allowed,
 #   but when using 80, they just get accepted as plaintext?
-DEFAULT_HOST = '127.0.0.1'
+DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 8080
 DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 
