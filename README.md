@@ -24,8 +24,7 @@ and
 also run `python3` on any individual `.py` file in `tests/` in order to run
 only the tests from that file. Tests should always be run from the project's
 root directory.
-5. Run the server with `run-server`. You may need to first add `~/.local/bin`
+5. Run the server with `http-server`. You may need to first add `~/.local/bin`
 or `$PYTHONUSERBASE/bin` to your `PATH`.
 
-TODO: rename `run-server` to `http-server`, give brief description of what it
-should do
+TODO: give brief description of what `http-server` script should do
