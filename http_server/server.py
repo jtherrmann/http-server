@@ -84,20 +84,22 @@ def run_server(
             # - man 2 accept
             connection, address = listener.accept()
 
-            # TODO: improve print output readability
             with connection:
                 if verbose:
+                    print('-' * 79)
                     print('Connection established with {}\n'.format(address))
 
                 # Receive up to the given number of bytes on a connected socket
                 # (man 2 recv).
                 request = connection.recv(MAX_REQUEST_LENGTH)
                 if verbose:
-                    print('Request:\n\n', request, '\n')
+                    print('Request:\n\n{}\n'.format(request.decode().strip()))
 
                 response = handler(request)
                 if verbose:
-                    print('Response:\n\n', response)
+                    print(
+                        'Response:\n\n{}\n\n'.format(response.decode().strip())
+                    )
 
                 # Send data from a connected socket. socket.socket.send, like
                 # the underlying system call (see `man 2 send`), returns the
