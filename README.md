@@ -27,4 +27,8 @@ root directory.
 5. Run the server with `http-server`. You may need to first add `~/.local/bin`
 or `$PYTHONUSERBASE/bin` to your `PATH`.
 
-TODO: give brief description of what `http-server` script should do
+The server is now available at `http://localhost:8080/`. Any request is met
+with a plaintext response informing the client of the requested URI. For
+example, navigating to `http://localhost:8080/hello/world` in a web browser
+should display some message informing you that you requested URI
+`/hello/world`.
