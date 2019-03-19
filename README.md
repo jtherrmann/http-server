@@ -8,7 +8,7 @@ Operating Systems
 
 TODO
 
-## Installing
+## Getting started
 
 Known to work on Debian GNU/Linux 9 (stretch).
 
