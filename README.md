@@ -8,6 +8,22 @@ Operating Systems
 
 TODO
 
+## Goals
+
+**Overall goal:** Write an HTTP server in Python.
+
+**Detailed goals:**
+
+- Be able to serve HTML, CSS, and JavaScript in order to host a simple website.
+  - Implement only as much of [HTTP/1.1](https://tools.ietf.org/html/rfc2616)
+    as is needed to meet this goal.
+- Do not use any networking libraries other than `socket`. In particular, do
+  not use `http`, `socketserver`, `urllib`, or any third-party networking
+  libraries (e.g. `requests`).
+- Document (roughly) how the sockets code might be written using C system
+  calls.
+- Provide as much test coverage as possible, while still being practical.
+
 ## Getting started
 
 Known to work on Debian GNU/Linux 9 (stretch).
