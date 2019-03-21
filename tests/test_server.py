@@ -133,7 +133,3 @@ class ServerTripleCapsTestCase(ServerTestCase):
         self.assertEqual(
             responses, tuple(request.upper() * 3 for request in requests)
         )
-
-
-if __name__ == '__main__':
-    unittest.main()

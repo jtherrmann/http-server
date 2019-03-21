@@ -154,7 +154,3 @@ class RequestsTestCase(unittest.TestCase):
     @staticmethod
     def get_request(uri_ast: List[str]) -> Request:
         return Request(GET_METHOD, uri_ast, HTTP_VERSION)
-
-
-if __name__ == '__main__':
-    unittest.main()

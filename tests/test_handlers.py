@@ -49,7 +49,3 @@ class HandlersTestCase(unittest.TestCase):
         self.assertEqual(
             wrapped_handler(request_str.encode()), response_str.encode()
         )
-
-
-if __name__ == '__main__':
-    unittest.main()

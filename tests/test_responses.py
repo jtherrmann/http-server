@@ -54,7 +54,3 @@ class ResponsesTestCase(unittest.TestCase):
             + CRLF
         )
         self.assertEqual(response.get_str(), expected)
-
-
-if __name__ == '__main__':
-    unittest.main()

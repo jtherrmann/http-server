@@ -36,10 +36,8 @@ docs for
 [--user](https://pip.pypa.io/en/stable/reference/pip_install/#cmdoption-user)
 and
 [PYTHONUSERBASE](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUSERBASE).)
-4. Run `python3 tests/` to run all of the tests. They should all pass. You can
-also run `python3` on any individual `.py` file in `tests/` in order to run
-only the tests from that file. Tests should always be run from the project's
-root directory.
+4. Run `./run-tests`. All tests should pass. Tests should always be run from
+the project's root directory.
 5. Run the server with `http-server`. You may need to first add `~/.local/bin`
 or `$PYTHONUSERBASE/bin` to your `PATH`.
 
