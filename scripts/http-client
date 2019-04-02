@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+
+from http_server import server
+from http_server.tokens import GET_METHOD, HTTP_VERSION, CRLF
+
+
+if __name__ == '__main__':
+    while True:
+        uri = input('Enter a URI: ')
+        request_str = '{} {} {}{}'.format(GET_METHOD, uri, HTTP_VERSION, CRLF)
+        with server.create_tcp_socket() as client:
+            client.connect(server.DEFAULT_ADDR)
+            client.sendall(request_str.encode())
+            response_str = client.recv(4096).decode()
+        print()
+        print(response_str.strip())
+        print()

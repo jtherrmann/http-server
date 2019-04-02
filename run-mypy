@@ -1,2 +1,3 @@
 mypy http_server tests tests/scripts
-mypy scripts/*
+mypy scripts/http-server
+mypy scripts/http-client
