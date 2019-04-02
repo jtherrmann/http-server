@@ -25,6 +25,9 @@ from .tokens import GET_METHOD, HTTP_VERSION, CRLF
 # <uri-part-body> = {any non-'/' char in range 0x21-0x7E}
 # <version>       = HTTP_VERSION
 
+# TODO: Allow other methods (e.g. POST) and HTTP versions. Currently, any
+# request that does not use GET and HTTP/1.1 is treated as a bad request.
+
 
 @attrs(frozen=True)
 class Request:
