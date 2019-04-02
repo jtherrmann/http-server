@@ -10,6 +10,7 @@ class Response:
     _code_phrases = {
         200: 'OK',
         400: 'Bad Request',
+        404: 'Not Found',
         500: 'Internal Server Error'
     }
 

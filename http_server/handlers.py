@@ -1,3 +1,4 @@
+import os
 from typing import Callable
 
 from .requests import Request, parse
@@ -23,3 +24,15 @@ def handler(
             response = Response(500)
         return response.get_str().encode()
     return wrapper
+
+
+# TODO: tests
+@handler
+def default_handler(request: Request) -> Response:
+    path = os.path.join(*request.uri)
+    if os.path.isfile(path):
+        with open(path, 'r') as requested_file:
+            message_body = requested_file.read()
+        return Response(200, ('text', 'plain'), message_body)
+    else:
+        return Response(404)
