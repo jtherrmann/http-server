@@ -1,5 +1,5 @@
 import os
-from typing import Callable
+from typing import Callable, Iterator
 
 from .requests import Request, parse
 from .responses import Response
@@ -30,9 +30,45 @@ def handler(
 @handler
 def default_handler(request: Request) -> Response:
     path = os.path.join(*request.uri)
+    if path == '':
+        path = os.path.curdir
     if os.path.isfile(path):
         with open(path, 'r') as requested_file:
             message_body = requested_file.read()
+        # TODO: render html files, javascript, css
         return Response(200, ('text', 'plain'), message_body)
+    elif os.path.isdir(path):
+        message_body = _get_dir_html(path)
+        return Response(200, ('text', 'html'), message_body)
     else:
         return Response(404)
+
+
+def _get_dir_html(path: str) -> str:
+    assert os.path.isdir(path)
+    return '\n'.join((
+        '<!doctype html>',
+        '<html>',
+        '  <head>',
+        '    <title>{}</title>'.format(path),
+        '  </head>',
+        '  <body>',
+        *_get_dir_html_links(path),
+        '  </body>',
+        '</html>'
+    )) + '\n'
+
+
+def _get_dir_html_links(path: str) -> Iterator[str]:
+    assert os.path.isdir(path)
+    yield _get_file_html_link(path, os.path.pardir)
+    filenames = os.listdir(path)
+    for filename in filenames:
+        yield _get_file_html_link(path, filename)
+
+
+def _get_file_html_link(path: str, filename: str) -> str:
+    filepath = os.path.join(path, filename)
+    if os.path.isdir(filepath):
+        filename += os.path.sep
+    return '    <p><a href="{}">{}</a></p>'.format(filename, filename)
