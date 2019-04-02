@@ -2,6 +2,29 @@ import socket
 from typing import Callable, Tuple
 
 
+# General sources:
+# - https://docs.python.org/3/library/socket.html#example
+# - https://blog.stephencleary.com/2009/05/using-socket-as-server-listening-socket.html  # noqa E501
+# - Python function `help` for objects of interest. E.g:
+#     >>> help(socket.socket)
+#     >>> help(socket.socket.listen)
+
+
+# TODO: socket.socket.listen (called below) has an optional backlog parameter
+# that specifies the number of pending connections allowed before the listening
+# socket refuses new connections. I have left it unspecified (it defaults to a
+# reasonable value), but I should test how the server handles many simultaneous
+# incoming connections and consider choosing a custom value for the backlog
+# parameter. I should also consider some form of parallelism (probably
+# multithreading) to allow handling multiple requests simultaneously. The
+# server should return 503 Service Unavailable when it is temporarily
+# overloaded.
+#
+# Sources:
+# - man 2 listen
+# - https://tools.ietf.org/html/rfc2616#section-10.5.4
+
+
 # TODO:
 # - using port 80 seems to require root, 8080 does not; determine the
 #   difference
@@ -32,13 +55,6 @@ def run_server(
         address: Tuple[str, int] = DEFAULT_ADDR,
         verbose: bool = False) -> None:
 
-    # Sources:
-    # - https://docs.python.org/3/library/socket.html#example
-    # - https://blog.stephencleary.com/2009/05/using-socket-as-server-listening-socket.html  # noqa E501
-    # - Python function `help` for objects of interest. E.g:
-    #     >>> help(socket.socket)
-    #     >>> help(socket.socket.listen)
-
     with create_tcp_socket() as listener:
 
         # Normally, calling bind fails if a socket was too recently bound to
@@ -65,8 +81,6 @@ def run_server(
 
         # Mark the socket as one that will be used to accept incoming
         # connection requests (man 2 listen).
-        #
-        # TODO: specify backlog value
         listener.listen()
 
         while True:
