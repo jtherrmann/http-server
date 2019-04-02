@@ -7,7 +7,11 @@ from .tokens import HTTP_VERSION, CRLF
 class Response:
 
     # https://tools.ietf.org/html/rfc2616#section-6.1.1
-    _code_phrases = {200: 'OK', 500: 'Internal Server Error'}
+    _code_phrases = {
+        200: 'OK',
+        400: 'Bad Request',
+        500: 'Internal Server Error'
+    }
 
     _content_types = (('text', 'html'), ('text', 'plain'))
 
