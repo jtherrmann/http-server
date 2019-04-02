@@ -36,7 +36,8 @@ def default_handler(request: Request) -> Response:
         with open(path, 'r') as requested_file:
             message_body = requested_file.read()
         # TODO: render html files, javascript, css
-        return Response(200, ('text', 'plain'), message_body)
+        subtype = 'html' if os.path.splitext(path)[1] == '.html' else 'plain'
+        return Response(200, ('text', subtype), message_body)
     elif os.path.isdir(path):
         message_body = _get_dir_html(path)
         return Response(200, ('text', 'html'), message_body)
