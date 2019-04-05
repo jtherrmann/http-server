@@ -15,6 +15,7 @@ def handler(
         try:
             parsed_request = parse(request.decode())
             if parsed_request is None:
+                # https://tools.ietf.org/html/rfc2616#section-10.4.1
                 response = Response(400)
             else:
                 response = handler_func(parsed_request)
@@ -42,6 +43,7 @@ def default_handler(request: Request) -> Response:
         message_body = _get_dir_html(path)
         return Response(200, ('text', 'html'), message_body)
     else:
+        # https://tools.ietf.org/html/rfc2616#section-10.4.5
         return Response(404)
 
 
