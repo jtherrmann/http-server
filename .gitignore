@@ -1,5 +1,11 @@
 __pycache__
-.mypy_cache
-Pipfile.lock
 *.egg-info
+
+# pyenv
+.python-version
+
+# virtualenv
 venv
+
+# mypy
+.mypy_cache
