@@ -14,7 +14,22 @@ class Response:
         500: 'Internal Server Error'
     }
 
-    _content_types = (('text', 'html'), ('text', 'css'), ('text', 'plain'))
+    _content_types = (
+        # https://www.iana.org/assignments/media-types/text/html
+        ('text', 'html'),
+
+        # https://www.iana.org/assignments/media-types/text/css
+        ('text', 'css'),
+
+        # https://www.iana.org/assignments/media-types/application/javascript
+        ('application', 'javascript'),
+
+        # https://www.iana.org/assignments/media-types/media-types.xhtml#text
+        ('text', 'plain'),
+
+        # https://www.iana.org/assignments/media-types/image/png
+        ('image', 'png'),
+    )
 
     def __init__(
             self,

@@ -111,9 +111,15 @@ def run_server(
 
                 response = handler(request)
                 if verbose:
-                    print(
-                        'Response:\n\n{}\n\n'.format(response.decode().strip())
-                    )
+                    try:
+                        logged_response = 'Response:\n\n{}\n\n'.format(
+                            response.decode().strip()
+                        )
+                    except UnicodeDecodeError:
+                        logged_response = 'Response (bytes):\n\n{}\n\n'.format(
+                            response
+                        )
+                    print(logged_response)
 
                 # Send data from a connected socket. socket.socket.send, like
                 # the underlying system call (see `man 2 send`), returns the
