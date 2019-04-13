@@ -23,7 +23,7 @@ def handler(
             # TODO: log exception
             # https://tools.ietf.org/html/rfc2616#section-10.5.1
             response = Response(500)
-        return response.get_str()
+        return response.get_bytes()
     return wrapper
 
 

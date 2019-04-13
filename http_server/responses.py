@@ -46,7 +46,7 @@ class Response:
             and self._message_body == other._message_body
         )
 
-    def get_str(self) -> bytes:
+    def get_bytes(self) -> bytes:
         # https://tools.ietf.org/html/rfc2616#section-6
         return (
             self._get_status_line().encode()

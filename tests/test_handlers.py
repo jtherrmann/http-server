@@ -25,7 +25,7 @@ class HandlersTestCase(unittest.TestCase):
         request_str = (
             '{} /hello/world {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
         )
-        response_str = response.get_str()
+        response_str = response.get_bytes()
 
         self.assertEqual(
             wrapped_handler(request_str.encode()), response_str
@@ -44,7 +44,7 @@ class HandlersTestCase(unittest.TestCase):
         wrapped_handler = handler(custom_handler)
 
         request_str = '{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
-        response_str = response.get_str()
+        response_str = response.get_bytes()
 
         self.assertEqual(
             wrapped_handler(request_str.encode()), response_str
@@ -60,13 +60,13 @@ class HandlersTestCase(unittest.TestCase):
         good_request_str = '{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
         self.assertIsNotNone(parse(good_request_str))
         self.assertEqual(
-            response_200.get_str(),
+            response_200.get_bytes(),
             custom_handler(good_request_str.encode())
         )
 
         bad_request_str = '{}/ {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
         self.assertIsNone(parse(bad_request_str))
         self.assertEqual(
-            Response(400).get_str(),
+            Response(400).get_bytes(),
             custom_handler(bad_request_str.encode())
         )
