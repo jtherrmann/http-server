@@ -13,4 +13,6 @@ media_types = {
 
     # https://www.iana.org/assignments/media-types/image/png
     'png': ('image', 'png'),
+
+    # TODO: add audio media types?
 }
