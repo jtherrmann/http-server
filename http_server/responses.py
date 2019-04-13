@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Union
 from typing import Tuple  # noqa F401
 
 from .tokens import HTTP_VERSION, CRLF
@@ -20,7 +20,7 @@ class Response:
             self,
             status_code: int,
             content_type: Tuple[str, str] = None,
-            message_body: str = None) -> None:
+            message_body: Union[bytes, str] = None) -> None:
 
         if status_code not in self._code_phrases:
             raise ValueError()
@@ -43,13 +43,13 @@ class Response:
             and self._message_body == other._message_body
         )
 
-    def get_str(self) -> str:
+    def get_str(self) -> bytes:
         # https://tools.ietf.org/html/rfc2616#section-6
-        return ''.join(
-            (self._get_status_line(),
-             self._get_content_type(),
-             self._get_content_length(),
-             self._get_message_body())
+        return (
+            self._get_status_line().encode()
+            + self._get_content_type().encode()
+            + self._get_content_length().encode()
+            + self._get_message_body()
         )
 
     def _get_status_line(self) -> str:
@@ -74,13 +74,16 @@ class Response:
     def _get_content_length(self) -> str:
         # https://tools.ietf.org/html/rfc2616#section-14.13
         if self._message_body is not None:
-            return 'Content-Length: {}{}'.format(
-                len(self._message_body.encode()), CRLF
-            )
+            return 'Content-Length: {}{}'.format(len(self._message_body), CRLF)
         else:
             return ''
 
-    def _get_message_body(self) -> str:
-        return CRLF + (
-            self._message_body if self._message_body is not None else ''
-        )
+    def _get_message_body(self) -> bytes:
+        if isinstance(self._message_body, bytes):
+            message_body = self._message_body
+        elif isinstance(self._message_body, str):
+            message_body = self._message_body.encode()
+        else:
+            assert self._message_body is None
+            message_body = b''
+        return CRLF.encode() + message_body

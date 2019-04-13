@@ -28,7 +28,7 @@ class HandlersTestCase(unittest.TestCase):
         response_str = response.get_str()
 
         self.assertEqual(
-            wrapped_handler(request_str.encode()), response_str.encode()
+            wrapped_handler(request_str.encode()), response_str
         )
 
     def test_handler_code_500(self) -> None:
@@ -47,7 +47,7 @@ class HandlersTestCase(unittest.TestCase):
         response_str = response.get_str()
 
         self.assertEqual(
-            wrapped_handler(request_str.encode()), response_str.encode()
+            wrapped_handler(request_str.encode()), response_str
         )
 
     def test_handler_code_400(self) -> None:
@@ -60,13 +60,13 @@ class HandlersTestCase(unittest.TestCase):
         good_request_str = '{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
         self.assertIsNotNone(parse(good_request_str))
         self.assertEqual(
-            response_200.get_str().encode(),
+            response_200.get_str(),
             custom_handler(good_request_str.encode())
         )
 
         bad_request_str = '{}/ {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
         self.assertIsNone(parse(bad_request_str))
         self.assertEqual(
-            Response(400).get_str().encode(),
+            Response(400).get_str(),
             custom_handler(bad_request_str.encode())
         )

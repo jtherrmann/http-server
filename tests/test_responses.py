@@ -25,7 +25,7 @@ class ResponsesTestCase(unittest.TestCase):
             + 'Content-Type: text/plain' + CRLF
             + 'Content-Length: {}'.format(len(message_body)) + CRLF
             + CRLF + message_body
-        )
+        ).encode()
         self.assertEqual(response.get_str(), expected)
 
     def test_response_get_str_no_content_type(self) -> None:
@@ -35,7 +35,7 @@ class ResponsesTestCase(unittest.TestCase):
             HTTP_VERSION + ' 200 OK' + CRLF
             + 'Content-Length: {}'.format(len(message_body)) + CRLF
             + CRLF + message_body
-        )
+        ).encode()
         self.assertEqual(response.get_str(), expected)
 
     def test_response_get_str_no_message_body(self) -> None:
@@ -44,7 +44,7 @@ class ResponsesTestCase(unittest.TestCase):
             HTTP_VERSION + ' 200 OK' + CRLF
             + 'Content-Type: text/plain' + CRLF
             + CRLF
-        )
+        ).encode()
         self.assertEqual(response.get_str(), expected)
 
     def test_response_get_str_code_only(self) -> None:
@@ -52,5 +52,5 @@ class ResponsesTestCase(unittest.TestCase):
         expected = (
             HTTP_VERSION + ' 200 OK' + CRLF
             + CRLF
-        )
+        ).encode()
         self.assertEqual(response.get_str(), expected)
