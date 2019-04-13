@@ -89,4 +89,4 @@ def _get_file_html_link(path: str, filename: str) -> str:
     filepath = os.path.join(path, filename)
     if os.path.isdir(filepath):
         filename += os.path.sep
-    return '    <p><a href="{}">{}</a></p>'.format(filename, filename)
+    return '    <p><a href="/{}">{}</a></p>'.format(filepath, filename)
