@@ -36,7 +36,10 @@ def default_handler(request: Request) -> Response:
     if os.path.isfile(path):
         with open(path, 'r') as requested_file:
             message_body = requested_file.read()
-        # TODO: javascript
+
+        # TODO: no need to set particular content type for javascript? (test on
+        # firefox too)
+
         # TODO: set Content-Type based on value of request's Accept field
         ext = os.path.splitext(path)[1]
         subtype = ext[1:] if ext in ('.html', '.css') else 'plain'
