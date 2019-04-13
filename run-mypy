@@ -1,3 +1,3 @@
 mypy http_server tests tests/scripts
-mypy scripts/http-server
-mypy scripts/http-client
+mypy scripts/jth-http-server
+mypy scripts/jth-http-client
