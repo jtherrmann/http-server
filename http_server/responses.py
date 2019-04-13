@@ -1,5 +1,5 @@
 from typing import Any, Union
-from typing import Tuple  # noqa F401
+from typing import Optional, Tuple  # noqa F401
 
 from .tokens import HTTP_VERSION, CRLF
 
@@ -31,7 +31,10 @@ class Response:
 
         self._status_code = status_code
         self._content_type = content_type
-        self._message_body = message_body
+        self._message_body = (
+            message_body.encode() if isinstance(message_body, str)
+            else message_body
+        )  # type: Optional[bytes]
 
     def __eq__(self, other: Any) -> bool:
         if not isinstance(other, Response):
@@ -79,11 +82,5 @@ class Response:
             return ''
 
     def _get_message_body(self) -> bytes:
-        if isinstance(self._message_body, bytes):
-            message_body = self._message_body
-        elif isinstance(self._message_body, str):
-            message_body = self._message_body.encode()
-        else:
-            assert self._message_body is None
-            message_body = b''
-        return CRLF.encode() + message_body
+        return CRLF.encode() + (self._message_body
+                                if self._message_body is not None else b'')
