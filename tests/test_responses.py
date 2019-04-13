@@ -54,3 +54,13 @@ class ResponsesTestCase(unittest.TestCase):
             + CRLF
         ).encode()
         self.assertEqual(response.get_str(), expected)
+
+    def test_response_get_str_special_unicode_as_bytes(self) -> None:
+        response = Response(200, ('text', 'plain'), 'λ'.encode())
+        expected = (
+            HTTP_VERSION + ' 200 OK' + CRLF
+            + 'Content-Type: text/plain' + CRLF
+            + 'Content-Length: 2' + CRLF
+            + CRLF + 'λ'
+        ).encode()
+        self.assertEqual(response.get_str(), expected)
