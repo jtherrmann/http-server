@@ -14,7 +14,7 @@ class Response:
         500: 'Internal Server Error'
     }
 
-    _content_types = (('text', 'html'), ('text', 'plain'))
+    _content_types = (('text', 'html'), ('text', 'css'), ('text', 'plain'))
 
     def __init__(
             self,
