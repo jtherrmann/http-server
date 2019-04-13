@@ -1,6 +1,7 @@
 from typing import Any, Union
 from typing import Optional, Tuple  # noqa F401
 
+from .media_types import media_types
 from .tokens import HTTP_VERSION, CRLF
 
 
@@ -14,23 +15,6 @@ class Response:
         500: 'Internal Server Error'
     }
 
-    _content_types = (
-        # https://www.iana.org/assignments/media-types/text/html
-        ('text', 'html'),
-
-        # https://www.iana.org/assignments/media-types/text/css
-        ('text', 'css'),
-
-        # https://www.iana.org/assignments/media-types/application/javascript
-        ('application', 'javascript'),
-
-        # https://www.iana.org/assignments/media-types/media-types.xhtml#text
-        ('text', 'plain'),
-
-        # https://www.iana.org/assignments/media-types/image/png
-        ('image', 'png'),
-    )
-
     def __init__(
             self,
             status_code: int,
@@ -41,7 +25,7 @@ class Response:
             raise ValueError()
 
         if (content_type is not None
-                and content_type not in self._content_types):
+                and content_type not in media_types.values()):
             raise ValueError()
 
         self._status_code = status_code
