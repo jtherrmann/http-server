@@ -1,0 +1,3 @@
+[submodule "javascript-pong"]
+	path = javascript-pong
+	url = https://github.com/jtherrmann/javascript-pong
