@@ -41,3 +41,53 @@ the project's root directory.
 5. Run `which jth-default-server`. If `jth-default-server` is not found, try
 adding `~/.local/bin` (or `$PYTHONUSERBASE/bin`) to your `PATH`, then try
 again.
+
+## Default server
+
+`http_server` provides a default server that simply translates each requested
+URI to a filesystem path relative to the directory from which the server was
+run. `cd` to any directory in your filesystem (e.g. your home directory) and
+run `jth-default-server`. The server is now available at
+[http://localhost:8080/](http://localhost:8080/).
+
+## Dynamic CSS server
+
+`http_server` also provides a server that translates each requested URI to a
+set of CSS properties. Run `jth-dynamic-css-server` and go to
+[http://localhost:8080/](http://localhost:8080/) for further instructions.
+
+## Custom request handlers
+
+The only difference between the default server and the dynamic CSS server is
+the handler function passed to `run_server`. You can define your own handler
+function (and wrap it with the `create_handler` decorator) in order to specify
+how your server responds to requests.
+
+For example, here is a simple script for running a server that echoes the
+requested URI back to the client:
+
+```python
+#!/usr/bin/env python3
+
+from http_server.handlers import create_handler
+from http_server.media_types import media_types
+from http_server.requests import Request
+from http_server.responses import Response
+from http_server.server import run_server
+
+
+@create_handler  # Wrap our handler using the create_handler decorator.
+def echo_handler(request: Request) -> Response:
+    message_body = 'You requested URI /{}. Here it is.'.format(
+        '/'.join(request.uri)
+    )
+    return Response(200, media_types['plain'], message_body)
+
+
+if __name__ == '__main__':
+    # Run a TCP server that uses our custom handler.
+    run_server(echo_handler, verbose=True)
+```
+
+Also see the [jth-default-server](scripts/jth-default-server) and
+[jth-dynamic-css-server](scripts/jth-dynamic-css-server) scripts.
