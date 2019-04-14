@@ -1,0 +1,106 @@
+#!/usr/bin/env python3
+
+from typing import List, Optional, Tuple
+
+from http_server.handlers import handler
+from http_server.media_types import media_types
+from http_server.requests import Request
+from http_server.responses import Response
+from http_server.server import run_server
+
+
+DEFAULT_STYLE = '<style>body { font-family: sans; }</style>'
+
+
+@handler
+def dynamic_css_handler(request: Request) -> Response:
+    if request.uri == ['']:
+        style, body = _get_home_style_and_body()
+    else:
+        properties = _get_css_properties(request.uri)
+        if properties is None:
+            style, body = _get_error_style_and_body()
+        else:
+            style, body = _get_custom_style_and_body(properties)
+    message_body = '\n'.join((
+        '<!doctype html>',
+        '<html>',
+        '<head>',
+        '<title>Fun with dynamic CSS!</title>',
+        style,
+        '</head>',
+        body,
+        '</html>'
+    ))
+    return Response(200, media_types['html'], message_body)
+
+
+def _get_home_style_and_body() -> Tuple[str, str]:
+    uris = (
+        '/color:magenta/background-color:pink/font-size:30px/'
+        'font-style:italic',
+
+        '/color:red/background-color:black/font-size:20px/'
+        'font-weight:bold/font-variant:small-caps',
+
+        '/color:blue/background-color:yellow/font-size:100px/'
+        'font-style:italic/font-weight:bold/font-family:monospace'
+    )
+    links = ('<p><a href="{}">{}</a></p>'.format(uri, uri) for uri in uris)
+    body = '\n'.join((
+        '<body>',
+        '<p>Welcome to fun with dynamic CSS!</p>',
+        '<p>You can request a URI containing one or more CSS '
+        'property-value pairs.</p>',
+        '<p>Try these:</p>',
+        *links
+    ))
+    return DEFAULT_STYLE, body
+
+
+def _get_error_style_and_body() -> Tuple[str, str]:
+    body = '\n'.join((
+        '<body>',
+        '<p>Error: Each component of the requested URI must be of the '
+        'form PROPERTY:VALUE.</p>',
+        '</body>'
+    ))
+    return DEFAULT_STYLE, body
+
+
+def _get_custom_style_and_body(
+        properties: List[Tuple[str, str]]) -> Tuple[str, str]:
+    prop_val_strs = tuple(
+        '{}: {};'.format(*prop_val) for prop_val in properties
+    )
+    style = '\n'.join((
+        '<style>',
+        'body {',
+        *prop_val_strs,
+        '}',
+        '</style>'
+    ))
+    body = '\n'.join((
+        '<body>',
+        '<p>You requested the following CSS:</p>',
+        '<p>{}</p>'.format('<br />'.join(prop_val_strs)),
+        '</body>',
+    ))
+    return style, body
+
+
+def _get_css_properties(
+        request_uri: List[str]) -> Optional[List[Tuple[str, str]]]:
+    properties = []
+    for uri_part in request_uri:
+        if uri_part != '':
+            property_value = uri_part.split(':')
+            if len(property_value) != 2:
+                return None
+            prop, val = property_value
+            properties.append((prop, val))
+    return properties
+
+
+if __name__ == '__main__':
+    run_server(dynamic_css_handler, verbose=True)
