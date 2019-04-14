@@ -44,16 +44,15 @@ again.
 
 ## Default server
 
-`http_server` provides a default server that simply translates each requested
-URI to a filesystem path relative to the directory from which the server was
-run. `cd` to any directory in your filesystem (e.g. your home directory) and
-run `jth-default-server`. The server is now available at
+`http_server` provides a default server that translates URIs to filesystem
+paths relative to the directory from which the server was run. `cd` to any
+directory and run `jth-default-server`. The server is now available at
 [http://localhost:8080/](http://localhost:8080/).
 
 ## Dynamic CSS server
 
-`http_server` also provides a server that translates each requested URI to a
-set of CSS properties. Run `jth-dynamic-css-server` and go to
+`http_server` also provides a server that translates URIs to CSS. Run
+`jth-dynamic-css-server` and go to
 [http://localhost:8080/](http://localhost:8080/) for further instructions.
 
 ## Custom request handlers
