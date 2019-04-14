@@ -1,4 +1,4 @@
 mypy http_server tests tests/scripts
-mypy scripts/jth-http-server
+mypy scripts/jth-default-server
+mypy scripts/jth-dynamic-css-server
 mypy scripts/jth-http-client
-mypy fun-with-dynamic-css.py

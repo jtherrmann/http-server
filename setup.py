@@ -7,7 +7,8 @@ setuptools.setup(
     name='http_server',
     packages=['http_server'],
     scripts=[
-        os.path.join('scripts', 'jth-http-server'),
+        os.path.join('scripts', 'jth-default-server'),
+        os.path.join('scripts', 'jth-dynamic-css-server'),
         os.path.join('scripts', 'jth-http-client')
     ],
     install_requires=['attrs>=18.2.0'],
