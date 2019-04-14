@@ -49,7 +49,7 @@ paths relative to the directory from which the server was run. `cd` to any
 directory and run `jth-default-server`. The server is now available at
 [http://localhost:8080/](http://localhost:8080/).
 
-### **Pong** demo
+### *Pong* demo
 
 This project includes a submodule for [Jake Gordon's
 javascript-pong](https://github.com/jakesgordon/javascript-pong). From this
