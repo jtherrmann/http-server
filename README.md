@@ -38,11 +38,6 @@ and
 [PYTHONUSERBASE](https://docs.python.org/3/using/cmdline.html#envvar-PYTHONUSERBASE).)
 4. Run `./run-tests`. All tests should pass. Tests should always be run from
 the project's root directory.
-5. Run the server with `http-server`. You may need to first add `~/.local/bin`
-or `$PYTHONUSERBASE/bin` to your `PATH`.
-
-The server is now available at `http://localhost:8080/`. Any request is met
-with a plaintext response informing the client of the requested URI. For
-example, navigating to `http://localhost:8080/hello/world` in a web browser
-should display some message informing you that you requested URI
-`/hello/world`.
+5. Run `which jth-default-server`. If `jth-default-server` is not found, try
+adding `~/.local/bin` (or `$PYTHONUSERBASE/bin`) to your `PATH`, then try
+again.
