@@ -1,6 +1,6 @@
 import unittest
 
-from http_server.handlers import handler
+from http_server.handlers import create_handler
 from http_server.requests import parse, Request
 from http_server.responses import Response
 from http_server.tokens import GET_METHOD, HTTP_VERSION, CRLF
@@ -20,7 +20,7 @@ class HandlersTestCase(unittest.TestCase):
 
         self.assertEqual(custom_handler(request), response)
 
-        wrapped_handler = handler(custom_handler)
+        wrapped_handler = create_handler(custom_handler)
 
         request_str = (
             '{} /hello/world {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
@@ -41,7 +41,7 @@ class HandlersTestCase(unittest.TestCase):
         with self.assertRaises(Exception):
             custom_handler(request)
 
-        wrapped_handler = handler(custom_handler)
+        wrapped_handler = create_handler(custom_handler)
 
         request_str = '{} / {}{}'.format(GET_METHOD, HTTP_VERSION, CRLF)
         response_str = response.get_bytes()
@@ -53,7 +53,7 @@ class HandlersTestCase(unittest.TestCase):
     def test_handler_code_400(self) -> None:
         response_200 = Response(200, ('text', 'plain'), '')
 
-        @handler
+        @create_handler
         def custom_handler(request: Request) -> Response:
             return response_200
 

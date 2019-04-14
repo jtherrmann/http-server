@@ -8,7 +8,7 @@ from .responses import Response
 # - Return 501 Not Implemented for methods other than GET.
 # - Return 505 HTTP Version Not Supported for versions other than HTTP/1.1.
 
-def handler(
+def create_handler(
         handler_func: Callable[[Request], Response]) -> Callable[[bytes], bytes]:  # noqa E501
     def wrapper(request: bytes) -> bytes:
         try:
