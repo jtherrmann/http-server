@@ -49,6 +49,24 @@ paths relative to the directory from which the server was run. `cd` to any
 directory and run `jth-default-server`. The server is now available at
 [http://localhost:8080/](http://localhost:8080/).
 
+### **Pong** demo
+
+This project includes a submodule for [Jake Gordon's
+javascript-pong](https://github.com/jakesgordon/javascript-pong). From this
+project's root directory, run `cd javascript-pong` and then run
+`jth-default-server`. Go to
+[http://localhost:8080/index.html](http://localhost:8080/index.html), enable
+the `sound` option, and press `1` to start a single-player game.
+
+Note that I did not write any of the *Pong* code, but I had to make sure my
+server could serve HTML, CSS, JavaScript, images, and audio files in order to
+host *Pong*. Go to [http://localhost:8080/](http://localhost:8080/) in order to
+browse the files contained in the *Pong* project. In particular, navigate to
+[http://localhost:8080/images](http://localhost:8080/images) and
+[http://localhost:8080/sounds](http://localhost:8080/sounds) and observe that
+the server successfully responds with the contents of requested images and
+audio files.
+
 ## Dynamic CSS server
 
 `http_server` also provides a server that translates URIs to CSS. Run
