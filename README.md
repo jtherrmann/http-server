@@ -121,13 +121,13 @@ arbitrary number of `/..` to eventually reach the filesystem's root directory,
 and then get the contents of any directory or file for which the server has
 read access.
 
-It seems that many browsers automatically remove `/../` from URLs, so this
-vulnerability may not be obvious if you're developing a server and only testing
-it using a browser. In order to test this problem at the command line, run
-`jth-default-server` from any directory and then run `jth-http-client` in a
+It seems that many browsers automatically remove `..` components from URIs, so
+this vulnerability may not be obvious if you're developing a server and only
+testing it using a browser. In order to test this problem at the command line,
+run `jth-default-server` from any directory and then run `jth-http-client` in a
 separate terminal. The client script prompts you for URIs to request from the
 server and prints the server's responses, so that you can request URIs
-containing `/../` without interference from the browser.
+containing `..` components without interference from the browser.
 
 I anticipated this vulnerability early on, but I decided to leave it in so that
 I could use it to demonstrate the security implications of neglecting to
