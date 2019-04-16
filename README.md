@@ -109,3 +109,27 @@ if __name__ == '__main__':
 
 Also see the [jth-default-server](scripts/jth-default-server) and
 [jth-dynamic-css-server](scripts/jth-dynamic-css-server) scripts.
+
+## Security implications
+
+There is a known security flaw in
+[jth-default-server](scripts/jth-default-server). `default_handler` does not
+remove `..` components from the request URI, which means that an attacker can
+escape the directory from which the server was run. For example, you can
+request `/..` to get the contents of the parent directory, or chain together an
+arbitrary number of `/..` to eventually reach the filesystem's root directory,
+and then get the contents of any directory or file for which the server has
+read access.
+
+It seems that many browsers automatically remove `/../` from URLs, so this
+vulnerability may not be obvious if you're developing a server and only testing
+it using a browser. In order to test this problem at the command line, run
+`jth-default-server` from any directory and then run `jth-http-client` in a
+separate terminal. The client script prompts you for URIs to request from the
+server and prints the server's responses, so that you can request URIs
+containing `/../` without interference from the browser.
+
+I anticipated this vulnerability early on, but I decided to leave it in so that
+I could use it to demonstrate the security implications of neglecting to
+properly sanitize user input. The fix would be to simply modify the handler
+function to remove any `..` components from request URIs.
