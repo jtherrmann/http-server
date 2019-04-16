@@ -29,7 +29,8 @@ TODO
 Known to work on Debian GNU/Linux 9 (stretch).
 
 1. Install the `python3-pip` and `python3-setuptools` packages.
-2. Clone this repo and run `cd http-server`.
+2. Clone this repo with `git clone --recurse-submodules <url>` and then run `cd
+http-server`.
 3. Run `pip3 install . --user`, which installs the `http_server` package to
 `~/.local/` or to the location specified by `PYTHONUSERBASE`. (Also see the
 docs for
