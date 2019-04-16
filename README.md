@@ -133,3 +133,25 @@ I anticipated this vulnerability early on, but I decided to leave it in so that
 I could use it to demonstrate the security implications of neglecting to
 properly sanitize user input. The fix would be to simply modify the handler
 function to remove any `..` components from request URIs.
+
+## Why no parallelism?
+
+I considered adding parallelism to [server.py](http_server/server.py), so that
+a separate thread would handle each connected socket, allowing multiple clients
+to connect simultaneously. I have some experience with Python's
+[threading](https://docs.python.org/3/library/threading.html) library and I
+think it would be straightforward to add multithreading to this project.
+However, I decided against it for a few reasons.
+
+First, I still needed to work on serving HTML, CSS, JavaScript, images, etc. as
+well as create some interactive demos, in order to meet my original project
+goals. These were higher priorities than implementing parallelism.
+
+Second, I didn't want to add parallelism if I couldn't accurately test it for
+both correctness and performance gains. I wanted to run an experiment in which
+several clients send requests to the server at one time, in order to confirm
+that the server handles them simultaneously, and to measure the performance
+improvement over the single-threaded approach. Unfortunately, my development
+machine only has two cores, so I can't run such an experiment locally. I
+sketched out plans for running the experiment using AWS Lambda and/or EC2, but
+I ran out of time.
