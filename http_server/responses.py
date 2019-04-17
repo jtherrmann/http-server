@@ -1,3 +1,6 @@
+"""Tools for constructing responses."""
+
+
 from typing import Any, Union
 from typing import Optional, Tuple  # noqa F401
 

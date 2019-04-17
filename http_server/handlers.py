@@ -1,3 +1,6 @@
+"""Tools for creating request handlers."""
+
+
 from typing import Callable
 
 from .requests import Request, parse

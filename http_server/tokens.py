@@ -1,4 +1,5 @@
-# Tokens used in parsing requests and constructing responses.
+"""Tokens used in parsing requests and constructing responses."""
+
 
 GET_METHOD = 'GET'
 

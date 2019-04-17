@@ -1,3 +1,6 @@
+"""Tools for running a TCP server."""
+
+
 import socket
 from typing import Callable, Tuple
 
