@@ -9,6 +9,7 @@ from .tokens import HTTP_VERSION, CRLF
 
 
 class Response:
+    """A response from the server."""
 
     # https://tools.ietf.org/html/rfc2616#section-6.1.1
     _code_phrases = {
@@ -49,6 +50,8 @@ class Response:
         )
 
     def get_bytes(self) -> bytes:
+        """Convert the response to bytes."""
+
         # https://tools.ietf.org/html/rfc2616#section-6
         return (
             self._get_status_line().encode()

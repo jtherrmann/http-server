@@ -57,6 +57,7 @@ def run_server(
         handler: Callable[[bytes], bytes],
         address: Tuple[str, int] = DEFAULT_ADDR,
         verbose: bool = False) -> None:
+    """Run a TCP server at the given address."""
 
     with create_tcp_socket() as listener:
 
@@ -133,8 +134,8 @@ def run_server(
 
 
 def create_tcp_socket() -> socket.socket:
-    # Create a TCP socket.
-    #
+    """Create a TCP socket."""
+
     # socket.AF_INET specifies the IPv4 family of protocols.
     #
     # socket.SOCK_STREAM is the socket type and "[p]rovides sequenced,

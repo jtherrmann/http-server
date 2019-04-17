@@ -13,6 +13,8 @@ from .responses import Response
 
 def create_handler(
         handler_func: Callable[[Request], Response]) -> Callable[[bytes], bytes]:  # noqa E501
+    """Create a request handler."""
+
     def wrapper(request: bytes) -> bytes:
         try:
             parsed_request = parse(request.decode())
@@ -26,4 +28,5 @@ def create_handler(
             # https://tools.ietf.org/html/rfc2616#section-10.5.1
             response = Response(500)
         return response.get_bytes()
+
     return wrapper

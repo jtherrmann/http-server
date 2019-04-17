@@ -1,4 +1,24 @@
-"""Tools for parsing requests."""
+"""Tools for parsing requests.
+
+Request grammar:
+
+Adapted from https://tools.ietf.org/html/rfc2616#section-5
+
+Conventions:
+- Angle brackets (<>) enclose nonterminals.
+- Single quotes ('') enclose literal terminals.
+- Braces ({}) enclose anything that may occur zero or more times.
+- Uppercase identifiers refer to terminals defined as global constants.
+- Terminals may also be described using natural language.
+
+<request>       = <request-line> {any char}
+<request-line>  = <method> ' ' <uri> ' ' <version> CRLF
+<method>        = GET_METHOD
+<uri>           = <uri-part> {<uri-part>}
+<uri-part>      = '/' {'/'} <uri-part-body>
+<uri-part-body> = {any non-'/' char in range 0x21-0x7E}
+<version>       = HTTP_VERSION
+"""
 
 
 from typing import List  # noqa F401
@@ -8,25 +28,6 @@ from attr import attrs, attrib
 
 from .tokens import GET_METHOD, HTTP_VERSION, CRLF
 
-
-# Request grammar
-
-# Adapted from https://tools.ietf.org/html/rfc2616#section-5
-
-# Conventions:
-# - Angle brackets (<>) enclose nonterminals.
-# - Single quotes ('') enclose literal terminals.
-# - Braces ({}) enclose anything that may occur zero or more times.
-# - Uppercase identifiers refer to terminals defined as global constants.
-# - Terminals may also be described using natural language.
-
-# <request>       = <request-line> {any char}
-# <request-line>  = <method> ' ' <uri> ' ' <version> CRLF
-# <method>        = GET_METHOD
-# <uri>           = <uri-part> {<uri-part>}
-# <uri-part>      = '/' {'/'} <uri-part-body>
-# <uri-part-body> = {any non-'/' char in range 0x21-0x7E}
-# <version>       = HTTP_VERSION
 
 # TODO:
 # - Allow other methods (e.g. POST) and HTTP versions. Currently, any request
@@ -39,6 +40,8 @@ from .tokens import GET_METHOD, HTTP_VERSION, CRLF
 
 @attrs(frozen=True)
 class Request:
+    """A parsed request."""
+
     method = attrib()  # type: str
     uri = attrib()  # type: List[str]
     version = attrib()  # type: str
@@ -50,6 +53,8 @@ _pos = 0
 
 
 def parse(inpt: str) -> Optional[Request]:
+    """Parse a request."""
+
     global _pos
     _pos = 0
 
