@@ -1,6 +1,7 @@
 """Tools for creating request handlers."""
 
 
+from functools import wraps
 from typing import Callable
 
 from .requests import Request, parse
@@ -15,6 +16,7 @@ def create_handler(
         handler_func: Callable[[Request], Response]) -> Callable[[bytes], bytes]:  # noqa E501
     """Create a request handler."""
 
+    @wraps(handler_func)
     def wrapper(request: bytes) -> bytes:
         try:
             parsed_request = parse(request.decode())
