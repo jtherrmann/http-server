@@ -5,7 +5,7 @@ from typing import Iterator, Tuple
 from typing import Union  # noqa F401
 
 from http_server.handlers import create_handler
-from http_server.media_types import media_types
+from http_server.media_types import MEDIA_TYPES
 from http_server.requests import Request
 from http_server.responses import Response
 from http_server.server import run_server
@@ -33,14 +33,14 @@ def default_handler(request: Request) -> Response:
 
 def _ext_to_content_type(ext: str) -> Tuple[str, str]:
     if ext == '.html':
-        return media_types['html']
+        return MEDIA_TYPES['html']
     if ext == '.css':
-        return media_types['css']
+        return MEDIA_TYPES['css']
     if ext == '.js':
-        return media_types['javascript']
+        return MEDIA_TYPES['javascript']
     if ext == '.png':
-        return media_types['png']
-    return media_types['plain']
+        return MEDIA_TYPES['png']
+    return MEDIA_TYPES['plain']
 
 
 def _get_dir_html(path: str) -> str:

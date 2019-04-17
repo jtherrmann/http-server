@@ -1,7 +1,7 @@
 """Media types."""
 
 
-media_types = {
+MEDIA_TYPES = {
     # https://www.iana.org/assignments/media-types/media-types.xhtml#text
     'plain': ('text', 'plain'),
 

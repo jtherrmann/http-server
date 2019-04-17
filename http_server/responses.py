@@ -4,7 +4,7 @@
 from typing import Any, Union
 from typing import Optional, Tuple  # noqa F401
 
-from .media_types import media_types
+from .media_types import MEDIA_TYPES
 from .tokens import HTTP_VERSION, CRLF
 
 
@@ -28,7 +28,7 @@ class Response:
             raise ValueError()
 
         if (content_type is not None
-                and content_type not in media_types.values()):
+                and content_type not in MEDIA_TYPES.values()):
             raise ValueError()
 
         self._status_code = status_code

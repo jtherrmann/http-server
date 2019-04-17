@@ -3,7 +3,7 @@
 from typing import List, Optional, Tuple
 
 from http_server.handlers import create_handler
-from http_server.media_types import media_types
+from http_server.media_types import MEDIA_TYPES
 from http_server.requests import Request
 from http_server.responses import Response
 from http_server.server import run_server
@@ -32,7 +32,7 @@ def dynamic_css_handler(request: Request) -> Response:
         body,
         '</html>'
     ))
-    return Response(200, media_types['html'], message_body)
+    return Response(200, MEDIA_TYPES['html'], message_body)
 
 
 def _get_home_style_and_body() -> Tuple[str, str]:
