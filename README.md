@@ -43,6 +43,14 @@ the project's root directory.
 adding `~/.local/bin` (or `$PYTHONUSERBASE/bin`) to your `PATH`, then try
 again.
 
+### Troubleshooting tests
+
+If some or all of the tests in [test_server.py](tests/test_server.py) fail with
+`ConnectionRefusedError` because the client sockets cannot connect to the test
+servers, then it may be necessary to increase the sleep duration in the
+`ServerTestCase._wait` method so that the clients do not attempt to connect to
+the servers before the servers begin accepting connections.
+
 ## Default server
 
 `http_server` provides a default server that translates URIs to filesystem
