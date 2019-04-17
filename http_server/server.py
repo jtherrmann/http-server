@@ -28,11 +28,6 @@ from typing import Callable, Tuple
 # - https://tools.ietf.org/html/rfc2616#section-10.5.4
 
 
-# TODO:
-# - using port 80 seems to require root, 8080 does not; determine the
-#   difference
-# - also, it seems that when using 8080, invalid responses aren't allowed,
-#   but when using 80, they just get accepted as plaintext?
 DEFAULT_HOST = 'localhost'
 DEFAULT_PORT = 8080
 DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
@@ -41,9 +36,7 @@ DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 # HTTP explicitly doesn't specify a minimum or maximum URI length. Various
 # sources seem to indicate that the same goes for total request length.
 #
-# TODO:
-# - Confirm requirements (or lack thereof) on total request length.
-# - Return 414 (Request-URI Too Long) if URI too long.
+# TODO: Return 414 (Request-URI Too Long) if URI too long.
 #
 # sources:
 # - https://tools.ietf.org/html/rfc2616#section-3.2.1
@@ -52,7 +45,6 @@ DEFAULT_ADDR = (DEFAULT_HOST, DEFAULT_PORT)
 MAX_REQUEST_LENGTH = 4096
 
 
-# TODO: more sophisticated logging
 def run_server(
         handler: Callable[[bytes], bytes],
         address: Tuple[str, int] = DEFAULT_ADDR,
