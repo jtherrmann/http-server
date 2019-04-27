@@ -15,6 +15,7 @@ Operating Systems
 - [Custom request handlers](#custom-request-handlers)
 - [Security implications](#security-implications)
 - [Why no parallelism?](#why-no-parallelism)
+- [Lessons learned](#lessons-learned)
 
 ## Goals
 
@@ -171,3 +172,43 @@ improvement over the single-threaded approach. Unfortunately, my development
 machine only has two cores, so I can't run such an experiment locally. I
 sketched out plans for running the experiment using AWS Lambda and/or EC2, but
 I ran out of time.
+
+## Lessons learned
+
+- The Unix sockets interface is surprisingly high-level. Even if I had used the
+  C interface, I don't think I would have needed to actually understand
+  networking at the level of the hardware. I'm surprised that the operating
+  system comes with the ability to set up a TCP server with just a few system
+  calls.
+- HTTP really is just plain ASCII on top of (in this case) TCP. I think it's
+  really cool that there's nothing more to it than that. On the other hand, I
+  would have liked to delve more into low-level sockets programming.
+  Implementing a lower-level protocl like TCP sounds like a fun project.
+- Playing with processes is fun! Python has a very nice `subprocess` module for
+  creating and communicating with other processes, and I had fun using it while
+  writing tests that spawn test servers and then send requests to those
+  servers. In particular, I learned more about how to communicate with other
+  processes using signals and how to track down and terminate rogue processes
+  (e.g. if you accidentally close the terminal while your server is still
+  running).
+- "Servers" and "clients" aren't necessarily singular, independent machines.
+  They're just processes communicating via sockets. Previously, I was confused
+  by certain uses of the term "server". For example, I installed an
+  auto-completion package for my text editor that ran a server in the
+  background, and I was always unclear on what exactly that meant. Was it a
+  server on the internet? On my local machine? How was it communicating with my
+  text editor? Now I realize it was likely just a separate process
+  communicating with my text editor via sockets. Before learning about sockets,
+  I viewed writing multi-process applications and handling inter-process
+  communication as a difficult and mysterious task, while now it seems very
+  approachable.
+- Parsing is not a very interesting problem. Better to use someone else's
+  parser if one is available, or use a parser generator. In this case, I'm sure
+  there are HTTP-parsing modules available for Python (possibly in the standard
+  library).
+- Sometimes rapid prototyping is more important than complete test coverage. In
+  particular, if I were to do this project again, I would initially just use a
+  few of Python's string-manipulation functions (like `str.split` for splitting
+  strings on whitespace) in place of a proper recursive-descent parser, and not
+  worry about writing tests to make sure my parser recognizes every possible
+  kind of bad request.
