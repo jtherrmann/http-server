@@ -105,7 +105,7 @@ requested URI back to the client:
 #!/usr/bin/env python3
 
 from http_server.handlers import create_handler
-from http_server.media_types import media_types
+from http_server.media_types import MEDIA_TYPES
 from http_server.requests import Request
 from http_server.responses import Response
 from http_server.server import run_server
@@ -116,7 +116,7 @@ def echo_handler(request: Request) -> Response:
     message_body = 'You requested URI /{}. Here it is.'.format(
         '/'.join(request.uri)
     )
-    return Response(200, media_types['plain'], message_body)
+    return Response(200, MEDIA_TYPES['plain'], message_body)
 
 
 if __name__ == '__main__':
@@ -183,7 +183,7 @@ I ran out of time.
 - HTTP really is just plain ASCII on top of (in this case) TCP. I think it's
   really cool that there's nothing more to it than that. On the other hand, I
   would have liked to delve more into low-level sockets programming.
-  Implementing a lower-level protocl like TCP sounds like a fun project.
+  Implementing a lower-level protocol like TCP sounds like a fun project.
 - Playing with processes is fun! Python has a very nice `subprocess` module for
   creating and communicating with other processes, and I had fun using it while
   writing tests that spawn test servers and then send requests to those
