@@ -1,8 +1,8 @@
 # HTTP server
 
 Jake Herrmann\
-CS 321 Spring 2019\
-Operating Systems
+CS 321: Operating Systems\
+Spring 2019
 
 ## Contents
 
