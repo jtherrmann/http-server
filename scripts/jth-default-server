@@ -2,7 +2,7 @@
 
 import os
 from typing import Iterator, Tuple
-from typing import Union  # noqa F401
+from typing import Union  # noqa: F401
 
 from http_server.handlers import create_handler
 from http_server.media_types import MEDIA_TYPES

@@ -2,7 +2,7 @@
 
 
 from typing import Any, Union
-from typing import Optional, Tuple  # noqa F401
+from typing import Optional, Tuple  # noqa: F401
 
 from .media_types import MEDIA_TYPES
 from .tokens import HTTP_VERSION, CRLF

@@ -13,7 +13,7 @@ from .responses import Response
 # - Return 505 HTTP Version Not Supported for versions other than HTTP/1.1.
 
 def create_handler(
-        handler_func: Callable[[Request], Response]) -> Callable[[bytes], bytes]:  # noqa E501
+        handler_func: Callable[[Request], Response]) -> Callable[[bytes], bytes]:  # noqa: E501
     """Create a request handler."""
 
     @wraps(handler_func)
@@ -25,7 +25,7 @@ def create_handler(
                 response = Response(400)
             else:
                 response = handler_func(parsed_request)
-        except:  # noqa E722
+        except:  # noqa: E722
             # TODO: log exception
             # https://tools.ietf.org/html/rfc2616#section-10.5.1
             response = Response(500)
